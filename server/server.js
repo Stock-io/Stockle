@@ -14,7 +14,7 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 // ROUTE HANDLING
 app.use('/db', dbRouter);
-app.use('/login', loginRouter);
+app.use('/sign', loginRouter);
 
 //MAIN PAGE
 app.use('/', (req, res) => {
