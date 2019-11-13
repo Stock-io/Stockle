@@ -2,25 +2,19 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const PORT = 3000;
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 
-
-app.use(cookieParser());
-app.use(bodyParser());
 app.use(express.json());
 
-const stocksRouter = require('./routes/stocksRouter');
-const usersRouter = require('./routes/userRouter');
+const dbRouter = require('./routes/dbRouter');
+const loginRouter = require('./routes/loginRouter');
 
 //WEBPACK BUILD
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
 
 // ROUTE HANDLING
-app.use('/user', usersRouter);
-app.use('/stocks', stocksRouter);
-
+app.use('/db', dbRouter);
+app.use('/login', loginRouter);
 
 //MAIN PAGE
 app.use('/', (req, res) => {
