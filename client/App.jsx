@@ -9,10 +9,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
-      userId: '',
+      user_Id: '',
       response: '',
-      holdings: [],
+      name: 'HoldName',
+      cash: 5000,
+      day: '1',
+      stocks: [{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5}],
     }
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -21,10 +23,10 @@ class App extends Component {
 
   // the following are optional routes for gathering data from users and the database
   getHoldings(){
-    axios.get(`http://localhost:8080/get/${this.state.userId}`, this.state.userId)
+    axios.get(`http://localhost:8080/get/${this.state.user_Id}`, this.state.user_Id)
     .then(res => {
-      const holdings = res.data;
-      this.setState({ holdings });
+      const stocks = res.data;
+      this.setState({ stocks });
     })
   }
 
@@ -53,7 +55,7 @@ class App extends Component {
   }
 
   logout(){
-    this.setState({ user : '' , holdings : []})
+    this.setState({ name: '' , cash: 0, day: '', stocks: []})
   }
 
   componentDidMount() {
@@ -62,12 +64,12 @@ class App extends Component {
 
   // if not logged in, the landing page will render a login container
   // if logged in, it will conditionally render the UI
-  
+
   render() {
-    if(!this.state.user){
+    if(!this.state.name){
       return(
         <div className="outerContainer">
-          <Banner />
+          <Banner logout={this.logout} />
           <Login
             login={this.login}
             signUp={this.signUp}
@@ -78,11 +80,10 @@ class App extends Component {
     }
     return(
       <div className="outerContainer">
-        <Banner />
+        <Banner logout={this.logout} />
         <MainContainer 
-          userId={this.state.userId} 
-          holdings={this.state.holdings} 
-          logout={this.logout}
+          user_Id={this.state.user_Id} 
+          state={this.state}
         />
       </div>
     )
