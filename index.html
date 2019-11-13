@@ -5,6 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Kanit:600,900&display=swap" rel="stylesheet">
         <!-- <link rel="stylesheet" href="./client/style/style.scss"> -->
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-auth.js"></script>
+        <script>
+                // Your web app's Firebase configuration
+                var firebaseConfig = {
+                  apiKey: "AIzaSyDuLfWKE9gdfn7NzwCSxYkGYgIWkThhGAI",
+                  authDomain: "stockle.firebaseapp.com",
+                  databaseURL: "https://stockle.firebaseio.com",
+                  projectId: "stockle",
+                  storageBucket: "stockle.appspot.com",
+                  messagingSenderId: "975037340915",
+                  appId: "1:975037340915:web:5783625ae887de37b7eb86",
+                  measurementId: "G-SW3JZSMDEK"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                firebase.analytics();
+              </script>
     </head>
     <body>
         <!-- Hang React App Here -->
