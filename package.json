@@ -1,16 +1,13 @@
 {
-  "name": "polis",
+  "name": "stockle",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "test": "node .",
-    "start": "cross-env NODE_ENV=production node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "concurrently \" cross-env NODE_ENV=development webpack-dev-server --open \" \" nodemon server/server.js \" ",
-    "gulp-prod": "node_modules/.bin/gulp prod",
-    "gulp-dev": "node_modules/.bin/gulp dev",
-    "server": "nodemon index.js --ignore './client/'"
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open\" \"cross-env nodemon server/server.js || true\""
   },
   "keywords": [],
   "author": "",

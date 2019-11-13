@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import StockBox from '../components/StockBox.jsx'
-import { useTransition, animated } from 'react-spring'
+import React, { Component } from 'react';
 
-const StockList = (props) => {
-  const [state, setState] = useState({counter:0});
+// the Global Box will typically house a list of stocks, using shortened ticker names
+// when a stock is clicked, a secondary box will pop up in its place
+
+const GlobalBox = (props) => {
+  // please do yourself a favor and collapse this behemoth of an array
   const snp500 = [
     ["Apple Inc.",	 "AAPL"],
     ["Microsoft Corporation",	 "MSFT"],
@@ -512,30 +513,22 @@ const StockList = (props) => {
     ["News Corporation Class B",	 "NWS"]   
   ];
 
-  const arrToShow = [];
-  const favList = [];
-  let stocksToShow = 40;
-  if(props.name !== ""){
-    stocksToShow = snp500.length;
-  }
-  for(let i = 0; i < stocksToShow; i++){
-    if(props.favList && props.favList.includes(snp500[i][1])){
-      favList.push(<StockBox key={i} togglePopup ={props.togglePopup} stockName={snp500[i][0]} stockSymbol={snp500[i][1]}/>);
-    }
-    else if(snp500[i][0].toLowerCase().indexOf(props.name) !== -1){
-      arrToShow.push(<StockBox key={i} togglePopup ={props.togglePopup} stockName={snp500[i][0]} stockSymbol={snp500[i][1]}/>);
-    }
-    else if(snp500[i][1].toLowerCase().indexOf(props.name) !== -1){
-      arrToShow.push(<StockBox key={i} togglePopup ={props.togglePopup} stockName={snp500[i][0]} stockSymbol={snp500[i][1]}/>);
-    }
-  }
-
+  // a hold for conditional rendering to display the Box for the user's chosen stock.
+  // if('a' === 'a'){
+  //   return (
+  //     <div id="particularBox" className="innerBox darkInner">
+  //       PARTICULAR STOCK DATA WILL GO HERE
+  //     </div>
+  //   );
+  // }
   return (
-    <div>
-      {favList.length !== 0 ? <div>Favorites {favList}</div> : null}
-      {arrToShow}
+    <div id="globalBox" className="innerBox darkInner">
+      {snp500.map(el => {
+        return <div className="stockItem">{el[1]}</div>
+      })}
     </div>
   );
-}
+};
 
-export default StockList;
+
+export default GlobalBox;
