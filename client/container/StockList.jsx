@@ -515,7 +515,7 @@ const StockList = (props) => {
   const arrToShow = [];
   const favList = [];
   let stocksToShow = 40;
-  if(props.name !== ""){
+  if(props.name !== ""){  // when you type in the search bar
     stocksToShow = snp500.length;
   }
   for(let i = 0; i < stocksToShow; i++){

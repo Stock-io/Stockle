@@ -14,7 +14,7 @@ const StockPopup = props => {
     fetch(`/stocks/getAllPastStocks/${props.symbol}`)
     .then(data => data.json())
     .then(data =>{
-      console.log(data);
+      console.log('DATA FROM API: ', data);
       updateData({
         stockData: data,
         isLoading: false,
