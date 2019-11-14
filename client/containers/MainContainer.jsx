@@ -31,13 +31,19 @@ class App extends Component {
             day={this.props.state.day}
           />
           {/* passing user stocks array to HoldingBox */}
-          <HoldingsBox stocks={this.props.state.stocks} />
-          <ButtonBox selectStock={this.props.selectStock} />
+          <HoldingsBox
+            stocks={this.props.state.stocks}
+            selectStock={this.props.selectStock}
+          />
+          <ButtonBox />
           {/* passing selectedStock object to populate InnerStockBox */}
           <GlobalBox
             selectedStock={this.props.state.selectedStock}
             day={this.props.state.day}
-          />
+            stockName={this.props.state.stockName}
+            selectStock={this.props.selectStock}
+            exitSelect={this.props.exitSelect}
+            />
           
           {/* the following elements are conditionally rendered for either
           the beginning of the game, or the end results */}

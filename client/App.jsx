@@ -16,21 +16,16 @@ class App extends Component {
 
       // dummy stocks populated while waiting for database info
       // state.stocks will populate HoldingsBox
-      stocks: [{name: 'APPL', avg_value: 100, amount_owned: 5},{name: 'HOLD', avg_value: 5, amount_owned: 50}],
+      stocks: [{name: 'AAPL', avg_value: 100, amount_owned: 25},{name: 'WMT', avg_value: 50, amount_owned: 50}],
       
       // to be set any time the user clicks a stock name
       // it will flip GlobalBox to InnerStockBox, populating with pertinent stock information
       // dummy data below
+      stockName: 'XXXX',
       selectedStock: {
-        name: 'APPL',
-        date_price: [
-          {
-            date:'10-12-2019',
-            price: 1000
-          }
-        ]
+        date: 'XX-XX-2019',
+        price: '0000',
       },
-
 
       maxProfitResult: 0,
     }
@@ -41,6 +36,8 @@ class App extends Component {
     this.selectStock = this.selectStock.bind(this);
 
     this.maxProfit = this.maxProfit.bind(this);
+
+    this.exitSelect = this.exitSelect.bind(this);
   }
 
   // the following are optional routes for gathering data from users and the database
@@ -94,12 +91,11 @@ class App extends Component {
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
-  selectStock() {
-    axios.get(`http://localhost:8080/db/stock/AAPL`)
+  selectStock(name) {
+    axios.get(`http://localhost:8080/db/stock/${name}`)
     .then(res => {
-      console.log(res.data)
-      // const selectedStock = res.data;
-      // this.setState({ selectedStock });
+      const selectedStock = res.data.date_price[this.state.day];
+      this.setState({ selectedStock, stockName: name });
     })
   }
 
@@ -129,12 +125,17 @@ class App extends Component {
     });
   }
 
+  exitSelect(){
+    this.setState({ stockName: 'XXXX' })
+  }
+
 
   update = (user) => {
     if (user) {
       this.setState({user_Id: user.uid})
     }
   }
+
   componentDidMount() {
     this.getHoldings()
     firebase.auth().onAuthStateChanged(this.update);
@@ -169,6 +170,8 @@ class App extends Component {
           day={this.state.day}
           maxProfit={this.maxProfit}
           maxProfitResult={this.state.maxProfitResult}
+          
+          exitSelect={this.exitSelect}
         />
       </div>
     )
