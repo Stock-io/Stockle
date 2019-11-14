@@ -83,7 +83,7 @@ class App extends Component {
       // An error happened.
       console.log(error)
     });    
-    this.setState({ name: '' , cash: 0, day: '', stocks: []})
+    this.setState({ user_Id: '' , cash: 0, day: 0, stocks: []})
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
