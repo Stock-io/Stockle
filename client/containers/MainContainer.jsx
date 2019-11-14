@@ -4,6 +4,8 @@ import InfoBox from '../components/InfoBox.jsx';
 import HoldingsBox from '../components/HoldingsBox.jsx';
 import ButtonBox from '../components/ButtonBox.jsx';
 import GlobalBox from '../components/GlobalBox.jsx';
+import IntroCard from '../components/IntroCard.jsx';
+import ResultsCard from '../components/ResultsCard.jsx';
 
 // the Main Container is the UI for actual gameplay
 // we'll need to pass down user information as props from the database
@@ -12,15 +14,26 @@ import GlobalBox from '../components/GlobalBox.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-  }
 
+    // the following allow for conditional rendering of intro / results cards
+    // this.opening = this.props.state.day == 1 ? <IntroCard /> : <div></div>;
+    // this.results = this.props.state.day == 99 ? <ResultsCard maxProfit={this.props.maxProfit} maxProfitResult={this.props.maxProfitResult} /> : <div></div>;
+  }
   render() {
+    // conditional rendering for the ResultsCard
+    // Note: this.props.state.day is hardcoded to 99
+    const result = this.props.state.day == 99 ? <ResultsCard maxProfit={this.props.maxProfit} maxProfitResult={this.props.maxProfitResult} /> : <div></div>
     return(
       <div className="mainContainer">
           <InfoBox name={this.props.state.name} cash={this.props.state.cash} day={this.props.state.day}/>
           <HoldingsBox stocks={this.props.state.stocks}/>
           <ButtonBox />
           <GlobalBox />
+          
+          {/* the following elements are conditionally rendered for either
+          the beginning of the game, or the end results */}
+          {result}
+          {this.opening}
       </div>
     )
   }
