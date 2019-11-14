@@ -42,20 +42,16 @@ class App extends Component {
     })
   }
 
-  login(info) {
-    axios.post(`http://localhost:8080/login`, info)
-    .then(res => {
-      if(!res.data){ this.setState({ response : 'Invalid user' }) }
-      else if(res.data.username){
-        if(res.data.password !== info.password){
-          this.setState({ response : 'Incorrect password.' })
-          return;
-        }
-        this.setState({ user : res.data.username, userId : res.data._id, response : '' }, () => {
-          this.getThoughts();
-        })
-      }
-    })
+
+  login(info){
+    firebase.auth().signInWithEmailAndPassword(info.username, info.password)
+    .catch(function(error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log('errors', errorCode, errorMessage)
+    });
+
   }
 
   signUp(info) {
@@ -63,11 +59,28 @@ class App extends Component {
       this.setState({ response : 'Missing field' })
       return;
     }
-    else { this.setState({ response : '' }) }
+    else { 
+      this.setState({ response : ''}) 
+      firebase.auth().createUserWithEmailAndPassword(info.username, info.password)
+      .catch(function(error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log('errors', errorCode, errorMessage)
+    });
+    }
   }
 
-  logout() {
-    this.setState({ user_Id: '' , cash: 0, day: '', stocks: []})
+
+  logout(){
+    firebase.auth().signOut()
+    .then(function() {
+      // Sign-out successful.
+    }).catch(function(error) {
+      // An error happened.
+      console.log(error)
+    });    
+    this.setState({ user_Id: '' , cash: 0, day: 0, stocks: []})
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
@@ -83,8 +96,16 @@ class App extends Component {
     this.setState({ stockName: 'XXXX' })
   }
 
+
+  update = (user) => {
+    if (user) {
+      this.setState({user_Id: user.uid})
+    }
+  }
+
   componentDidMount() {
     this.getHoldings()
+    firebase.auth().onAuthStateChanged(this.update);
   }
 
   // if not logged in, the landing page will render a login container
@@ -106,7 +127,7 @@ class App extends Component {
     return(
       <div className="outerContainer">
         <Banner logout={this.logout} />
-        <MainContainer 
+        <MainContainer selectStock={this.selectStock}
           user_Id={this.state.user_Id} 
           state={this.state}
           selectStock={this.selectStock}

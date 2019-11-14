@@ -4,6 +4,7 @@ const path = require('path');
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const dbRouter = require('./routes/dbRouter');
 const loginRouter = require('./routes/loginRouter');
