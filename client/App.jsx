@@ -32,7 +32,7 @@ class App extends Component {
       singleTradeMinProfitResult: 0,
       multiTradeMaxProfitResult: 0,
       multiTradeMinProfitResult: 0,
-      sevenDayMovingAvgResult: 0,
+      twentyDayMovingAvgResult: 0,
     }
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -44,7 +44,7 @@ class App extends Component {
     this.singleTradeMinProfit = this.singleTradeMinProfit.bind(this);
     this.multiTradeMaxProfit = this.multiTradeMaxProfit.bind(this);
     this.multiTradeMinProfit = this.multiTradeMinProfit.bind(this);
-    this.sevenDayMovingAvg = this.sevenDayMovingAvg.bind(this);
+    this.twentyDayMovingAvg = this.twentyDayMovingAvg.bind(this);
 
     this.exitSelect = this.exitSelect.bind(this);
   }
@@ -183,7 +183,7 @@ class App extends Component {
     });
   }
 
-  sevenDayMovingAvg(arr) {
+  twentyDayMovingAvg(arr) {
     console.log('calc');
   }
 
@@ -238,8 +238,8 @@ class App extends Component {
           multiTradeMaxProfitResult={this.state.multiTradeMaxProfitResult}
           multiTradeMinProfit={this.multiTradeMinProfit}
           multiTradeMinProfitResult={this.state.multiTradeMinProfitResult}
-          sevenDayMovingAvg={this.sevenDayMovingAvg}
-          sevenDayMovingAvgResult={this.state.sevenDayMovingAvgResult}
+          twentyDayMovingAvg={this.twentyDayMovingAvg}
+          twentyDayMovingAvgResult={this.state.twentyDayMovingAvgResult}
           
           exitSelect={this.exitSelect}
         />
