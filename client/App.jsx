@@ -103,7 +103,20 @@ class App extends Component {
     // , cash: 50000, day: 0, stocks: []
   }
 
-  //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
+  endDay = () => {
+    this.setState(state => {
+      return {
+        day: state.day + 1
+      }
+    })
+    axios.put(`/endDay/${this.state.day}`)
+    .catch(err=> {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
+
   selectStock(name) {
     axios.get(`http://localhost:8080/db/stock/${name}`)
     .then(res => {
