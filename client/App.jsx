@@ -63,7 +63,7 @@ class App extends Component {
     firebase.auth().signInWithEmailAndPassword(info.username, info.password)
     .catch(function(error) {
       // Handle Errors here.
-      const errorCode = error.code;
+      // const errorCode = error.code;
       const errorMessage = error.message;
       this.setState({resonse: errorMessage})
       // console.log('errors', errorCode, errorMessage)
@@ -81,7 +81,7 @@ class App extends Component {
       firebase.auth().createUserWithEmailAndPassword(info.username, info.password)
       .catch(function(error) {
       // Handle Errors here.
-      const errorCode = error.code;
+      // const errorCode = error.code;
       const errorMessage = error.message;
       // console.log('errors', errorCode, errorMessage)
       this.setState({resonse: errorMessage})
@@ -99,7 +99,8 @@ class App extends Component {
       // An error happened.
       console.log(error)
     });    
-    this.setState({ user_Id: '' , cash: 50000, day: 0, stocks: []})
+    this.setState({ user_Id: ''})
+    // , cash: 50000, day: 0, stocks: []
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
@@ -201,7 +202,7 @@ class App extends Component {
       axios.get(`/db/user/${user.uid}`)
       .then(resp => {
         if (resp.data){
-          this.setState({cash: resp.data.score, day: resp.data.day, stocks: resp.data.stocks})
+          this.setState({cash: resp.data.score, day: resp.data.day, stocks: [...resp.data.stocks]})
         } else {
           axios.post('/sign/up', {user: user.uid})
           .catch(err => {
