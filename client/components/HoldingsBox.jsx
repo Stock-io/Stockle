@@ -7,6 +7,7 @@ class HoldingsBox extends Component {
   constructor(props) {
     super(props);
 
+
     // Local State
     // Variable Data
     this.state = {

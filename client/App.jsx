@@ -123,6 +123,21 @@ class App extends Component {
     this.setState( { totalValue, tempQuantity } )
   }
 
+
+  endDay = () => {
+    this.setState(state => {
+      return {
+        day: state.day + 1
+      }
+    })
+    axios.put(`/endDay/${this.state.day}`)
+    .catch(err=> {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
+
   // methods for buying and selling stocks
 
   buyStock(purchase){
@@ -197,6 +212,7 @@ class App extends Component {
   
   // methods for selecting which stock to display in InnerStockBox,
   // upon clicking a stock name in GlobalBox or HoldingsBox
+
   selectStock(name) {
     axios.get(`http://localhost:8080/db/stock/${name}`)
     .then(res => {
