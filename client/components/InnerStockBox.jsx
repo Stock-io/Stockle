@@ -9,16 +9,31 @@ const InnerStockBox = (props) => {
       <div id="innerStockBox" className="innerBox darkInner">
         {/* information regarding state's selectedStock object */}
         <button id="innerClose" onClick={ () => props.exitSelect() }></button>
-        <p>{props.stockName}</p>
+        <p>{props.selectedStockName}</p>
         <p>{props.selectedStock.price}</p>
 
-        {/* purchasing value and information */}
+        {/* purchasing value and information
+        the amount the user wants to purchase is calculate onChange
+        buyStock and sellStock methods have heavy conditions regarding state
+        */}
         <p style={{fontSize:'10pt'}}>How much do you want to purchase?</p>
-        <input type="text" id="purchaseAmount"></input>
-        <p>Total Value</p>
+        <input type="text" id="purchaseAmount" onChange={ (e) => {
+              props.calculateTotal({ value: props.selectedStock.price, quantity: e.target.value });
+            }}></input>
+        <p>{props.totalValue}</p>
         <div style={{display:'flex',margin:'15px auto'}}>
-          <button id="sellBtn" className="buyBtn">SELL</button>
-          <button id="buyBtn" className="buyBtn">BUY</button>
+
+          <button id="sellBtn" className="buyBtn" 
+            onClick={ () => {
+              document.getElementById('purchaseAmount').value = '';
+              props.sellStock({ name: props.selectedStockName, value: props.selectedStock.price, quantity: props.tempQuantity })
+              }}>SELL</button>
+            
+          <button id="buyBtn" className="buyBtn"
+            onClick={ () => {
+              document.getElementById('purchaseAmount').value = '';
+              props.buyStock({ name: props.selectedStockName, value: props.selectedStock.price, quantity: props.tempQuantity })
+            }}>BUY</button>
         </div>
       </div>
   );
