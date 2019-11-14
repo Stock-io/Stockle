@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 
 const dbController = {};
 
+// ***** Only Used to Initially Set Up DB ***** //
 dbController.getAllStockData = (req, res, next) => {
   const snp50 = [
     /*0*/["Apple Inc.",	 "AAPL"],
@@ -86,12 +87,76 @@ dbController.getAllStockData = (req, res, next) => {
   
 };
 
+
+// ***** When a User buys a stock ***** //
 dbController.buyUserStock = (req, res, next) => {
+  const { user_id, name, avg_value, amount_owned } = req.body;
+  if (!user_id) return res.status(400).json('No user_id given');
+  if (!name) return res.status(400).json('No stock name given');
+  if (!avg_value) return res.status(400).json('No stock name given');
+  if (!amount_owned) return res.status(400).json('No stock name given');
+  models.User.findOne({user_id: user_id}, 'stocks', (err, stocks) => {
+    for (let i = 0; i < stocks.length; i++) {
+      if (stocks[i].name === name) {
+        stocks[i].avg_value = avg_value;
+        stocks[i].amount_owned = amount_owned;
+        break;
+      }
+    }
+    models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks})
+    .then(() => next())
+    .catch(err => next({
+      message: 'Error in buyUserStock for findOneAndUpdate',
+      err: err,
+    }));
+  })
+  .catch(err => next({
+    message: 'Error in buyUserStock for findOne',
+    err: err,
+  }));
+};
+
+
+// ***** When a User sells a stock ***** //
+dbController.sellUserStock = (req, res, next) => {
   return next();
 };
 
-dbController.sellUserStock = (req, res, next) => {
+
+// ***** Return all Stock data for a given day ***** //
+dbController.getAllStocks = (req, res, next) => {
+  const { day } = req.params;
+  models.User.find()
+  .then(data => {
+
+  })
   return next();
+};
+
+
+// ***** Return a Stock's info ***** //
+dbController.getSingleStock = (req, res, next) => {
+  const { name } = req.params;
+  models.StockPrices.findOne({name: name})
+  .then(data => {
+    res.locals.stock = data;
+    return next();
+  })
+  .catch(err => next({
+    message: 'Error in getSingleStock for findOne',
+    err: err,
+  }));
+};
+
+
+// ***** Get User information ***** //
+dbController.getUser = (req, res, next) => {
+  const { user_id } = req.params;
+  models.User.findOne({user_id: user_id})
+  .then(data => {
+    res.locals.user = data;
+    return next();
+  })
 };
 
 module.exports = dbController;
