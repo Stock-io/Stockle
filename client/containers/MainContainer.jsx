@@ -29,7 +29,7 @@ class App extends Component {
           />
           {/* passing user stocks array to HoldingBox */}
           <HoldingsBox stocks={this.props.state.stocks} />
-          <ButtonBox />
+          <ButtonBox selectStock={this.props.selectStock} />
           {/* passing selectedStock object to populate InnerStockBox */}
           <GlobalBox
             selectedStock={this.props.state.selectedStock}
