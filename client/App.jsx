@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       user_Id: 'id',
       response: '',
-      cash: 5000,
+      cash: 50000,
       day: 0,
       // dummy stocks populated while waiting for database info
       // state.stocks will populate HoldingsBox
@@ -52,7 +52,8 @@ class App extends Component {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log('errors', errorCode, errorMessage)
+      this.setState({resonse: errorMessage})
+      // console.log('errors', errorCode, errorMessage)
     });
 
   }
@@ -69,8 +70,10 @@ class App extends Component {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log('errors', errorCode, errorMessage)
+      // console.log('errors', errorCode, errorMessage)
+      this.setState({resonse: errorMessage})
     });
+      // .then(() => this.setState({day: 0, cash: 50000}))
     }
   }
 
@@ -83,7 +86,7 @@ class App extends Component {
       // An error happened.
       console.log(error)
     });    
-    this.setState({ name: '' , cash: 0, day: '', stocks: []})
+    this.setState({ user_Id: '' , cash: 50000, day: 0, stocks: []})
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
@@ -99,11 +102,24 @@ class App extends Component {
 
   update = (user) => {
     if (user) {
-      this.setState({user_id: user.uid, name: 'I guess'})
-    }
+      this.setState({user_Id: user.uid})
+      axios.get(`/db/user/${user.uid}`)
+      .then(resp => {
+        if (resp.data){
+          this.setState({cash: resp.data.score, day: resp.data.day, stocks: resp.data.stocks})
+        } else {
+          axios.post('/sign/up', {user: user.uid})
+          .catch(err => {
+          if (err) console.log(err);
+          })
+        }
+      })
+      .catch(err => {if (err) {console.log(err)}})
+      // axios.post('/sign/up', {user: user.uid})
   }
+}
   componentDidMount() {
-    this.getHoldings()
+    // this.getHoldings()
     firebase.auth().onAuthStateChanged(this.update);
   }
 
