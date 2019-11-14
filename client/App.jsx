@@ -96,7 +96,7 @@ class App extends Component {
 
   update = (user) => {
     if (user) {
-      this.setState({user_id: user.uid, name: 'I guess'})
+      this.setState({user_Id: user.uid})
     }
   }
   componentDidMount() {
@@ -123,7 +123,7 @@ class App extends Component {
     return(
       <div className="outerContainer">
         <Banner logout={this.logout} />
-        <MainContainer 
+        <MainContainer selectStock={this.selectStock}
           user_Id={this.state.user_Id} 
           state={this.state}
         />
