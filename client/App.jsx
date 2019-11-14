@@ -12,7 +12,7 @@ class App extends Component {
       user_Id: 'id',
       response: '',
       cash: 50000,
-      day: 0,
+      day: 99,
 
       // dummy stocks populated while waiting for database info
       // state.stocks will populate HoldingsBox
