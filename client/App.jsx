@@ -83,7 +83,7 @@ class App extends Component {
       // An error happened.
       console.log(error)
     });    
-    this.setState({ name: '' , cash: 0, day: '', stocks: []})
+    this.setState({ user_Id: '' , cash: 0, day: 0, stocks: []})
   }
 
   //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
@@ -99,7 +99,7 @@ class App extends Component {
 
   update = (user) => {
     if (user) {
-      this.setState({user_id: user.uid, name: 'I guess'})
+      this.setState({user_Id: user.uid})
     }
   }
   componentDidMount() {
@@ -126,7 +126,7 @@ class App extends Component {
     return(
       <div className="outerContainer">
         <Banner logout={this.logout} />
-        <MainContainer 
+        <MainContainer selectStock={this.selectStock}
           user_Id={this.state.user_Id} 
           state={this.state}
           selectStock={this.selectStock}
