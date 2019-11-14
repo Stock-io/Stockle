@@ -45,19 +45,20 @@ stocksController.deleteBuy = (req, res, next) => {
 
 stocksController.getAllPastStock = (req, res, next) => {
   const symbol = req.params.stockId
-  console.log('symbol ins get all paststock si', symbol)
+  console.log('req.params.stockId ->', req.params.stockId)
   models.PastStock.findOne({stockSymbol: symbol}, (err, result) => {
-    console.log(result)
+    console.log('result ->', result);
     if (err) {
       return next('Error in stocksControllers.getAllPastStock')
     }
-    if (result === null) {
-      console.log('nothing found in getallparststock')
+    // if (result === null) {
+      // console.log('nothing found in getallparststock')
       fetch(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=VRFP7Q7L5C1DU3EH`
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=compact&apikey=VRFP7Q7L5C1DU3EH`
       )
         .then(result => result.json())
         .then(result => {
+          console.log('THE DATA WE GET BACK FROM THE API (RIGHT AFTER THE FETCH) ->', result)
           const resultSymbol = result['Meta Data']['2. Symbol'];
           const price = result['Time Series (Daily)']['4. close'];
           const finalResult = [];
@@ -76,12 +77,11 @@ stocksController.getAllPastStock = (req, res, next) => {
           });
         })
         .catch(err => console.log(err));
-    } else {
-      res.locals.pastStock = result;
-      return next();
-      console.log('result if you find ur shit', result)
-    }
-  }
-  )
+    // } else {
+    //   res.locals.pastStock = result;
+    //   return next();
+    //   console.log('result if you find ur shit', result)
+    // }
+  })
  }
 module.exports = stocksController;

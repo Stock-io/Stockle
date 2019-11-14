@@ -90,28 +90,48 @@ dbController.getAllStockData = (req, res, next) => {
 
 // ***** When a User buys a stock ***** //
 dbController.buyUserStock = (req, res, next) => {
-  const { user_id, name, avg_value, amount_owned } = req.body;
+  const { user_id, name, avg_value, amount_owned, score } = req.body;
   if (!user_id) return res.status(400).json('No user_id given');
   if (!name) return res.status(400).json('No stock name given');
-  if (!avg_value) return res.status(400).json('No stock name given');
-  if (!amount_owned) return res.status(400).json('No stock name given');
-  models.User.findOne({user_id: user_id}, 'stocks', (err, stocks) => {
-    for (let i = 0; i < stocks.length; i++) {
-      if (stocks[i].name === name) {
-        stocks[i].avg_value = avg_value;
-        stocks[i].amount_owned = amount_owned;
+  if (!avg_value) return res.status(400).json('No stock avg_value given');
+  if (!amount_owned) return res.status(400).json('No stock amount_owned given');
+  if (!score) return res.status(400).json('No stock score given');
+  models.User.findOne({user_id: user_id}, (err, user) => {
+    let doesStockExist = false;
+    for (let i = 0; i < user.stocks.length; i++) {
+      if (user.stocks[i].name === name) {
+        doesStockExist = true;
+        user.stocks[i].avg_value = avg_value;
+        user.stocks[i].amount_owned = amount_owned;
         break;
       }
     }
-    models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks})
-    .then(data => {
-      res.locals.stock = data;
-      return next()
-    })
-    .catch(err => next({
-      message: 'Error in buyUserStock for findOneAndUpdate',
-      err: err,
-    }));
+    if (doesStockExist) {
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in buyUserStock for findOneAndUpdate, stock does exist',
+        err: err,
+      }));
+    } else {
+      user.stocks.push({
+        name,
+        avg_value,
+        amount_owned,
+      })
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in buyUserStock for findOneAndUpdate, stock doesn\'t exist',
+        err: err,
+      }));
+    }
   })
   .catch(err => next({
     message: 'Error in buyUserStock for findOne',
@@ -122,7 +142,60 @@ dbController.buyUserStock = (req, res, next) => {
 
 // ***** When a User sells a stock ***** //
 dbController.sellUserStock = (req, res, next) => {
-  return next();
+  const { user_id, name, avg_value, amount_owned, score } = req.body;
+  if (!user_id) return res.status(400).json('No user_id given');
+  if (!name) return res.status(400).json('No stock name given');
+  if (!avg_value) return res.status(400).json('No stock avg_value given');
+  if (!amount_owned) return res.status(400).json('No stock amount_owned given');
+  if (!score) return res.status(400).json('No stock score given');
+  if (amount_owned === 0) { /* Check my type if not deleting properly */
+    models.User.findOne({user_id: user_id}, (err, user) => {
+      let stockIndex = null;
+      for (let i = 0; i < user.stocks.length; i++) {
+        if (user.stocks[i].name === name) {
+          stockIndex = i;
+          break;
+        }
+      }
+      user.stocks.splice(stockIndex, 1);
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in sellUserStock for findOneAndUpdate, amount = 0',
+        err: err,
+      }));
+    })
+    .catch(err => next({
+      message: 'Error in sellUserStock for findOne, amount = 0',
+      err: err,
+    }));
+  } else {
+    models.User.findOne({user_id: user_id}, (err, user) => {
+      for (let i = 0; i < user.stocks.length; i++) {
+        if (user.stocks[i].name === name) {
+          user.stocks[i].avg_value = avg_value;
+          user.stocks[i].amount_owned = amount_owned;
+          break;
+        }
+      }
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in sellUserStock for findOneAndUpdate, amount is less',
+        err: err,
+      }));
+    })
+    .catch(err => next({
+      message: 'Error in sellUserStock for findOne, amount is less',
+      err: err,
+    }));
+  }
 };
 
 
@@ -131,7 +204,7 @@ dbController.getAllStocks = (req, res, next) => {
   const { day } = req.params;
   models.User.find()
   .then(data => {
-    
+
     return next();
   })
 };
@@ -158,6 +231,36 @@ dbController.getUser = (req, res, next) => {
   models.User.findOne({user_id: user_id})
   .then(data => {
     res.locals.user = data;
+    return next();
+  })
+};
+
+// ***** Set new User day ***** //
+dbController.setUserDay = (req, res, next) => {
+  const { newDay } = req.params;
+  models.User.findOne({user_id: user_id})
+  .then(data => {
+    models.User.findOneAndUpdate({user_id: user_id}, {day: newDay}, {new: true, useFindAndModify: false})
+    .then(data => {
+      res.locals.stock = data;
+      return next()
+    })
+    .catch(err => next({
+      message: 'Error in setUserDay for findOneAndUpdate',
+      err: err,
+    }));
+  })
+  .catch(err => next({
+    message: 'Error in setUserDay for findOne',
+    err: err,
+  }));
+};
+
+// ***** Return all Stock data ***** //
+dbController.dbAll = (req, res, next) => {
+  models.StockPrices.find()
+  .then(data => {
+    res.locals.stock = data;
     return next();
   })
 };
