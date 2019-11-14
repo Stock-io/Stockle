@@ -17,17 +17,21 @@ class App extends Component {
       // dummy stocks populated while waiting for database info
       stocks: [{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5}],
 
-      // results: {
-      //   maxProfit: 0,
-      //   minProfit: 0,
-      // },
-      maxProfitResult: 0,
+      singleTradeMaxProfitResult: 0,
+      singleTradeMinProfitResult: 0,
+      multiTradeMaxProfitResult: 0,
+      multiTradeMinProfitResult: 0,
+      sevenDayMovingAvgResult: 0,
     }
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
     this.logout = this.logout.bind(this);
 
-    this.maxProfit = this.maxProfit.bind(this);
+    this.singleTradeMaxProfit = this.singleTradeMaxProfit.bind(this);
+    this.singleTradeMinProfit = this.singleTradeMinProfit.bind(this);
+    this.multiTradeMaxProfit = this.multiTradeMaxProfit.bind(this);
+    this.multiTradeMinProfit = this.multiTradeMinProfit.bind(this);
+    this.sevenDayMovingAvg = this.sevenDayMovingAvg.bind(this);
   }
 
   // the following are optional routes for gathering data from users and the database
@@ -68,7 +72,7 @@ class App extends Component {
   }
 
  
-  maxProfit(arr) {    
+  singleTradeMaxProfit(arr) {    
     if (!Array.isArray(arr) || arr.length < 1) {
       return;
     }
@@ -76,7 +80,7 @@ class App extends Component {
     let minPrice = arr[0];
     let maxProfit = arr[1] - arr[0];
 
-    // when iterating over an array, use forEach() (otherwise you look like a junior dev)
+    // when iterating over an array, use forEach() (otherwise you look like a junior dev). If there's a shorter syntax out there and you're not using it, it makes you look junior
     // arr.forEach();
   
     for (let i = 0; i < arr.length; i += 1) {
@@ -90,8 +94,61 @@ class App extends Component {
     }
     
     this.setState({
-        maxProfitResult: maxProfit,
+      singleTradeMaxProfitResult: maxProfit,
     });
+  }
+
+  singleTradeMinProfit(arr) {
+    const newArr = [];
+
+    for (let i = 0; i < arr.length; i += 1) {
+      let buyHi = arr[i];
+      let sellLo = Infinity;
+  
+      for (let j = i + 1; j < arr.length; j += 1) {
+        if (buyHi > arr[j] && sellLo > arr[j]) {
+          sellLo = arr[j];
+        }
+      }
+      
+      if (buyHi > sellLo) {
+        newArr.push(sellLo - buyHi)
+      }
+    }
+  
+    this.setState({
+      singleTradeMinProfitResult: Math.min(...newArr),
+    });
+  }
+
+  multiTradeMaxProfit(arr) {
+    let result = 0;
+
+    for (let i = 0; i < arr.length - 1; i += 1) {
+      if (arr[i + 1] > arr[i]) {
+        result += arr[i + 1] - arr[i]
+      }
+    }  
+    this.setState({
+      multiTradeMaxProfitResult: result,
+    });
+  }
+
+  multiTradeMinProfit(arr) {
+    let result = 0;
+
+    for (let i = 0; i < arr.length - 1; i += 1) {
+      if (arr[i + 1] < arr[i]) {
+        result += arr[i + 1] - arr[i]
+      }
+    }  
+    this.setState({
+      multiTradeMinProfitResult: result,
+    });
+  }
+
+  sevenDayMovingAvg(arr) {
+    console.log('calc');
   }
 
   componentDidMount() {
@@ -123,8 +180,16 @@ class App extends Component {
           state={this.state}
 
           day={this.state.day}
-          maxProfit={this.maxProfit}
-          maxProfitResult={this.state.maxProfitResult}
+          singleTradeMaxProfit={this.singleTradeMaxProfit}
+          singleTradeMaxProfitResult={this.state.singleTradeMaxProfitResult}
+          singleTradeMinProfit={this.singleTradeMinProfit}
+          singleTradeMinProfitResult={this.state.singleTradeMinProfitResult}
+          multiTradeMaxProfit={this.multiTradeMaxProfit}
+          multiTradeMaxProfitResult={this.state.multiTradeMaxProfitResult}
+          multiTradeMinProfit={this.multiTradeMinProfit}
+          multiTradeMinProfitResult={this.state.multiTradeMinProfitResult}
+          sevenDayMovingAvg={this.sevenDayMovingAvg}
+          sevenDayMovingAvgResult={this.state.sevenDayMovingAvgResult}
         />
       </div>
     )

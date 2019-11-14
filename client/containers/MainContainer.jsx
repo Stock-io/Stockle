@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     // conditional rendering for the ResultsCard
     // Note: this.props.state.day is hardcoded to 99
-    const result = this.props.state.day == 99 ? <ResultsCard maxProfit={this.props.maxProfit} maxProfitResult={this.props.maxProfitResult} /> : <div></div>
+    const result = this.props.state.day == 99 ? <ResultsCard singleTradeMaxProfit={this.props.singleTradeMaxProfit} singleTradeMaxProfitResult={this.props.singleTradeMaxProfitResult} singleTradeMinProfit={this.props.singleTradeMinProfit} singleTradeMinProfitResult={this.props.singleTradeMinProfitResult} multiTradeMaxProfit={this.props.multiTradeMaxProfit} multiTradeMaxProfitResult={this.props.multiTradeMaxProfitResult} multiTradeMinProfit={this.props.multiTradeMinProfit} multiTradeMinProfitResult={this.props.multiTradeMinProfitResult} sevenDayMovingAvg={this.props.sevenDayMovingAvg} sevenDayMovingAvgResult={this.props.sevenDayMovingAvgResult}/> : <div></div>
     return(
       <div className="mainContainer">
           <InfoBox name={this.props.state.name} cash={this.props.state.cash} day={this.props.state.day}/>
