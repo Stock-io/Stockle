@@ -11,13 +11,14 @@ class HoldingsBox extends Component {
   }
   // populates from the state.stocks array
   render() {
+    console.log(this.props.stocks)
     return (
       <div id="holdingsBox" className="innerBox darkInner">
-        {this.stocks.map((el, i) => {
-          return <div key={i} className="holdings" onClick={ () => this.selectStock(el.name) }>
+        {this.props.stocks.map((el, i) => {
+          return (<div key={i} className="holdings" onClick={ () => this.props.selectStock(el.name) }>
             {el.name}
             <div className="valueItems">Valued ${el.avg_value} | Owned: {el.amount_owned}</div>
-          </div>
+          </div>)
         })}
       </div>
     );
