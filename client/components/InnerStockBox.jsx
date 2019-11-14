@@ -12,7 +12,10 @@ const InnerStockBox = (props) => {
         <p>{props.selectedStockName}</p>
         <p>{props.selectedStock.price}</p>
 
-        {/* purchasing value and information */}
+        {/* purchasing value and information
+        the amount the user wants to purchase is calculate onChange
+        buyStock and sellStock methods have heavy conditions regarding state
+        */}
         <p style={{fontSize:'10pt'}}>How much do you want to purchase?</p>
         <input type="text" id="purchaseAmount" onChange={ (e) => {
               props.calculateTotal({ value: props.selectedStock.price, quantity: e.target.value });

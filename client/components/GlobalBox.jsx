@@ -60,7 +60,8 @@ const GlobalBox = (props) => {
     ["Thermo Fisher Scientific Inc.",	 "TMO"],
   ];
 
-  // a hold for conditional rendering to display the Box for the user's chosen stock.
+  // conditional rendering to display the InnerStockBox for the user's chosen stock.
+  // whenever it's closed, 'XXXX' is put into state.selectedStockName to close the InnerStockBox
   if(props.selectedStockName !== 'XXXX'){
     return (
       <InnerStockBox
@@ -77,6 +78,7 @@ const GlobalBox = (props) => {
       />
     );
   }
+  // when no stock is selected, 'XXXX' defaults and the full list of stocks available is displayed
   return (
     <div id="globalBox" className="innerBox darkInner">
       {snp50.map((el, i) => {
