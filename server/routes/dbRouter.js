@@ -7,12 +7,52 @@ const router = express.Router();
 //   res.status(200).json('Db Successfully Stored Session Data');
 // });
 
+
+// ***** When a User buys a stock ***** //
 router.put('/buyStock', dbController.buyUserStock, (req, res) => {
   res.status(200).json(res.locals.stock);
 })
 
+
+// ***** When a User sells a stock ***** //
 router.put('/sellStock', dbController.sellUserStock, (req, res) => {
   res.status(200).json(res.locals.stock);
+})
+
+
+// ***** Return a Stock's info ***** //
+router.get('/stock/:name', dbController.getSingleStock, (req, res) => {
+  res.status(200).json(res.locals.stock);
+})
+
+
+// ***** Get User information ***** //
+router.get('/user/:user_id', dbController.getUser, (req, res) => {
+  res.status(200).json(res.locals.user);
+})
+
+
+// ***** Set new day for the User ***** //
+router.put('/endDay/:newDay', dbController.setUserDay, (req, res) => {
+  res.status(200).json(res.locals.day);
+})
+
+
+// ***** Return all Stock data for a given day ***** //
+router.get('/All', dbController.dbAll, (req, res) => {
+  res.status(200).json(res.locals.stock);
+})
+
+
+// ***** Return all Stock data for a given day ***** //
+router.get('/:day', dbController.getAllStocks, (req, res) => {
+  res.status(200).json(res.locals.stock);
+})
+
+
+// ***** 404 handler ***** //
+router.use('/', (req, res) => {
+  res.sendStatus(404);
 })
 
 module.exports = router;

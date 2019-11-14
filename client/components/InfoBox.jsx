@@ -7,7 +7,7 @@ const InfoBox = (props) => (
   
   <div id="infoBox" className="innerBox">
     <p>${props.cash}</p>
-    <p>Day {props.day}</p>
+    <p>Day {props.day + 1}</p>
   </div>
 
 );

@@ -44,6 +44,7 @@ html, body, #root {
 }
   header {
       font-size: 28pt;
+      font-family: 'Ubuntu', sans-serif;
       letter-spacing: 4pt;
       background: transparent;
   }
@@ -129,6 +130,7 @@ html, body, #root {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  cursor: pointer;
 
 }
 #buttonBox {
@@ -144,10 +146,43 @@ html, body, #root {
   .stockItem {
     font-size: 12pt;
     margin: 8pt;
+    cursor: pointer;
   }
 }
-#particularBox {
+#innerStockBox {
   grid-area: 1 / 3 / span 5 / 3;
+  align-items: center;
+  padding-top: 15pt;
+  position: relative;
+  p {
+    margin-bottom: 15px;
+    font-size: 15pt;
+  }
+  #innerClose {
+    border-radius: 15px;
+    background: rgba(250,60,40,1);
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  .buyBtn {
+    font-size: 0.8em;
+    background: none;
+    border: none;
+    color: rgba(245,245,245,1);
+    width: auto;
+    height: auto;
+    margin: 15px;
+  }
+  #commitBtn {
+    width: 80px;
+    height: 40px;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(250,60,40,1);
+  }
 }
 
 button {
