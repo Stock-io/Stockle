@@ -25,6 +25,8 @@ const IntroCard = (props) => (
 
     <button onClick={() => props.SMA([9999, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499], 50)}>fiftyDayMovingAvg</button>
     <div> {props.fiftyDayMovingAvgResult} </div>
+
+    <div style={{ color: 'green' }}>Good job</div>
   </div>
 
 );
