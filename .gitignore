@@ -62,3 +62,6 @@ typings/
 
 #webpack
 build/bundle.js
+
+#Old Client Copy
+client_copy
