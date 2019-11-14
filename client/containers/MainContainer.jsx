@@ -32,6 +32,7 @@ class App extends Component {
           />
           {/* passing user stocks array to HoldingBox */}
           <HoldingsBox
+            day={this.props.state.day}
             stocks={this.props.state.stocks}
             selectStock={this.props.selectStock}
           />
