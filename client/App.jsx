@@ -4,6 +4,7 @@ import axios from 'axios';
 import MainContainer from './containers/MainContainer.jsx';
 import Login from './components/Login.jsx';
 import Banner from './components/Banner.jsx';
+import Algo from './Algos.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends Component {
       multiTradeMaxProfitResult: 0,
       multiTradeMinProfitResult: 0,
       twentyDayMovingAvgResult: 0,
+      fiftyDayMovingAvgResult: 0,
     }
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -40,11 +42,11 @@ class App extends Component {
 
     this.selectStock = this.selectStock.bind(this);
 
-    this.singleTradeMaxProfit = this.singleTradeMaxProfit.bind(this);
-    this.singleTradeMinProfit = this.singleTradeMinProfit.bind(this);
-    this.multiTradeMaxProfit = this.multiTradeMaxProfit.bind(this);
-    this.multiTradeMinProfit = this.multiTradeMinProfit.bind(this);
-    this.twentyDayMovingAvg = this.twentyDayMovingAvg.bind(this);
+    this.singleTradeMaxProfit = Algo.singleTradeMaxProfit.bind(this)
+    this.singleTradeMinProfit = Algo.singleTradeMinProfit.bind(this);
+    this.multiTradeMaxProfit = Algo.multiTradeMaxProfit.bind(this);
+    this.multiTradeMinProfit = Algo.multiTradeMinProfit.bind(this);
+    this.SMA = Algo.SMA.bind(this);
 
     this.exitSelect = this.exitSelect.bind(this);
   }
@@ -111,85 +113,8 @@ class App extends Component {
     })
   }
 
-  singleTradeMaxProfit(arr) {    
-    if (!Array.isArray(arr) || arr.length < 1) {
-      return;
-    }
   
-    let minPrice = arr[0];
-    let maxProfit = arr[1] - arr[0];
-
-    // when iterating over an array, use forEach() (otherwise you look like a junior dev). If there's a shorter syntax out there and you're not using it, it makes you look junior
-    // arr.forEach();
   
-    for (let i = 0; i < arr.length; i += 1) {
-      let currentPrice = arr[i];
-      let potentialProfit = currentPrice - minPrice;
-      maxProfit = Math.max(maxProfit, potentialProfit)
-      minPrice = Math.min(minPrice, currentPrice)
-    }
-    if (maxProfit < 0) {
-      return;
-    }
-    
-    this.setState({
-      singleTradeMaxProfitResult: maxProfit,
-    });
-  }
-
-  singleTradeMinProfit(arr) {
-    const newArr = [];
-
-    for (let i = 0; i < arr.length; i += 1) {
-      let buyHi = arr[i];
-      let sellLo = Infinity;
-  
-      for (let j = i + 1; j < arr.length; j += 1) {
-        if (buyHi > arr[j] && sellLo > arr[j]) {
-          sellLo = arr[j];
-        }
-      }
-      
-      if (buyHi > sellLo) {
-        newArr.push(sellLo - buyHi)
-      }
-    }
-  
-    this.setState({
-      singleTradeMinProfitResult: Math.min(...newArr),
-    });
-  }
-
-  multiTradeMaxProfit(arr) {
-    let result = 0;
-
-    for (let i = 0; i < arr.length - 1; i += 1) {
-      if (arr[i + 1] > arr[i]) {
-        result += arr[i + 1] - arr[i]
-      }
-    }  
-    this.setState({
-      multiTradeMaxProfitResult: result,
-    });
-  }
-
-  multiTradeMinProfit(arr) {
-    let result = 0;
-
-    for (let i = 0; i < arr.length - 1; i += 1) {
-      if (arr[i + 1] < arr[i]) {
-        result += arr[i + 1] - arr[i]
-      }
-    }  
-    this.setState({
-      multiTradeMinProfitResult: result,
-    });
-  }
-
-  twentyDayMovingAvg(arr) {
-    console.log('calc');
-  }
-
   exitSelect(){
     this.setState({ stockName: 'XXXX' })
   }
@@ -254,8 +179,9 @@ class App extends Component {
           multiTradeMaxProfitResult={this.state.multiTradeMaxProfitResult}
           multiTradeMinProfit={this.multiTradeMinProfit}
           multiTradeMinProfitResult={this.state.multiTradeMinProfitResult}
-          twentyDayMovingAvg={this.twentyDayMovingAvg}
+          SMA={this.SMA}
           twentyDayMovingAvgResult={this.state.twentyDayMovingAvgResult}
+          fiftyDayMovingAvgResult={this.state.fiftyDayMovingAvgResult}
           
           exitSelect={this.exitSelect}
         />
