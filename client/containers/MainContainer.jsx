@@ -35,15 +35,20 @@ class App extends Component {
             stocks={this.props.state.stocks}
             selectStock={this.props.selectStock}
           />
-          <ButtonBox />
+          <ButtonBox endDay={this.props.endDay}/>
           {/* passing selectedStock object to populate InnerStockBox */}
           <GlobalBox
             selectedStock={this.props.state.selectedStock}
             day={this.props.state.day}
-            stockName={this.props.state.stockName}
+            tempQuantity={this.props.state.tempQuantity}
+            totalValue={this.props.state.totalValue}
+            selectedStockName={this.props.state.selectedStockName}
             selectStock={this.props.selectStock}
             exitSelect={this.props.exitSelect}
-            />
+            calculateTotal={this.props.calculateTotal}
+            buyStock={this.props.buyStock}
+            sellStock={this.props.sellStock}
+          />
           
           {/* the following elements are conditionally rendered for either
           the beginning of the game, or the end results */}
