@@ -37,6 +37,10 @@ router.get('/:day', dbController.getAllStocks, (req, res) => {
   res.status(200).json(res.locals.stock);
 })
 
+// ***** Return all Stock data for a given day ***** //
+router.put('/endDay/:newDay', dbController.setUserDay, (req, res) => {
+  res.status(200).json(res.locals.day);
+})
 
 // ***** 404 handler ***** //
 router.use('/', (req, res) => {
