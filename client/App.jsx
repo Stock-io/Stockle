@@ -14,6 +14,7 @@ class App extends Component {
       name: 'HoldName',
       cash: 5000,
       day: '1',
+      // dummy stocks populated while waiting for database info
       stocks: [{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5}],
     }
     this.login = this.login.bind(this);
