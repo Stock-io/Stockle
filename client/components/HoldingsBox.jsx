@@ -8,7 +8,7 @@ class HoldingsBox extends Component {
     super(props);
     this.stocks = this.props.stocks
   }
-
+  // populates from the state.stocks array
   render() {
     return (
       <div id="holdingsBox" className="innerBox darkInner">
