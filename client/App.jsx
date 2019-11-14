@@ -1,161 +1,93 @@
 import React, { Component } from 'react';
-import Header from './components/header';
 import axios from 'axios';
-import SearchBar from './components/searchcomp'
-import StockList from './container/StockList.jsx'
-import StockPopUp from './components/StockPopup'
-import RenderList from './components/renderList.jsx'
 
-var dataPoints = [];
+import MainContainer from './containers/MainContainer.jsx';
+import Login from './components/Login.jsx';
+import Banner from './components/Banner.jsx';
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      enteredUsername:'',
-      enteredPassword:'',
-      name:'',
-      isPicked: false,
-      companyName:'',
-      whichTab: '1',
-      favorites:[],
-      buys:[],
-      email:''
+    this.state = {
+      user_Id: '',
+      response: '',
+      name: 'HoldName',
+      cash: 5000,
+      day: '1',
+      stocks: [{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5},{name: 'Apple', avg_value: 100, amount_owned: 5}],
     }
-    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-    this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
-    this.nameChangeHandler = this.nameChangeHandler.bind(this);
-    this.SignupClick = this.SignupClick.bind(this);
-    this.LoginClick = this.LoginClick.bind(this);
-    this.togglePopup = this.togglePopup.bind(this);
-    this.favsListChangeHandler = this.favsListChangeHandler.bind(this);
-    this.stockListChangeHandler = this.stockListChangeHandler.bind(this);
-    this.buysListChangeHandler = this.buysListChangeHandler.bind(this);
+    this.login = this.login.bind(this);
+    this.signUp = this.signUp.bind(this);
+    this.logout = this.logout.bind(this);
   }
-  SignupClick(){
-    fetch('/user/login',{
-      method: 'POST', 
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email_address: this.state.enteredUsername,
-        password: this.state.enteredPassword
-      })
-    })
-    .then(body => body.json())
-    .then(body => {
-      if(body.message === "No Such User"){
-        fetch('/user/signup',{
-          method: 'POST', 
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body:{
-            'email_address':this.state.enteredUsername,
-            'password': this.state.enteredPassword,
-            'first_name': "dummy",
-            'last_name': "dummy"
-          }
-        })
-        .then(data => data.json())
-        .then(data => {
-          alert("account created!")
-        })
-      }
-      else{
-        alert("account already exist!")
-      }
-    });
-  }
-  LoginClick(){
-    console.log("inside login click")
-    fetch('/user/login',{
-      method: 'POST', 
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email_address: this.state.enteredUsername,
-        password: this.state.enteredPassword
-      })
-    })
-    .then(body => body.json())
-    .then(body => {
-      if(body.message === "No Such User"){
-        alert('Your password does not match with our data!');
-      }
-      else if(body.message === "Wrong password"){
-        alert('Your password does not match with our data!');
-      }
-      else{
-        alert("welcome!");
-        console.log(body);
-        this.setState({
-          favorites: body.favorites,
-          email:body.email_address,
-          buys:body.buys
-        });
-      }
-    });
-  }
-  stockListChangeHandler(){
-      this.setState({whichTab: '1'});
-  } 
-  favsListChangeHandler(){
-      this.setState({whichTab: '2'});
-  }
-  buysListChangeHandler(){
-      this.setState({whichTab: '3'})
-  }
-  passwordChangeHandler(event){
-      event.preventDefault();
-      this.setState({enteredPassword: event.target.value});
-  }
-  usernameChangeHandler(event){
-      event.preventDefault();
-      // console.log(event.target.value);
-      this.setState({enteredUsername: event.target.value});
-  }
-  nameChangeHandler(event){
-    event.preventDefault();
-    this.setState({name: event.target.value});
-  }
-  togglePopup(newname, newSymbol){
-    // console.log('app line 65', newname, newSymbol);
-    if(this.state.isPicked == false){
-      this.setState({'isPicked':true,'companyName':newname, 'companySymbol': newSymbol});
-    }
-    else{
-      this.setState({'isPicked':false});
-    }
-  }
-  render(){
-    let content;
-    if(this.state.whichTab == '1'){
-    content =(<StockList name={this.state.name} togglePopup={this.togglePopup}/>)
-    }
-    else if(this.state.whichTab =='2'){
-      content = (<div>
-        <RenderList list= {this.state.favorites} togglePopup ={this.togglePopup}/>
-        </div>
-      )
-    }
-    else if(this.state.whichTab == '3'){
-      content =(
-        <div>
-          <RenderList list= {this.state.buys} togglePopup ={this.togglePopup}/>
-        </div>
-      )
-    }
 
+  // the following are optional routes for gathering data from users and the database
+  getHoldings(){
+    axios.get(`http://localhost:8080/get/${this.state.user_Id}`, this.state.user_Id)
+    .then(res => {
+      const stocks = res.data;
+      this.setState({ stocks });
+    })
+  }
+
+  login(info){
+    axios.post(`http://localhost:8080/login`, info)
+    .then(res => {
+      if(!res.data){ this.setState({ response : 'Invalid user' }) }
+      else if(res.data.username){
+        if(res.data.password !== info.password){
+          this.setState({ response : 'Incorrect password.' })
+          return;
+        }
+        this.setState({ user : res.data.username, userId : res.data._id, response : '' }, () => {
+          this.getThoughts();
+        })
+      }
+    })
+  }
+
+  signUp(info){
+    if(!info.username || !info.password){
+      this.setState({ response : 'Missing field' })
+      return;
+    }
+    else { this.setState({ response : '' }) }
+  }
+
+  logout(){
+    this.setState({ name: '' , cash: 0, day: '', stocks: []})
+  }
+
+  componentDidMount() {
+    this.getHoldings()
+  }
+
+  // if not logged in, the landing page will render a login container
+  // if logged in, it will conditionally render the UI
+
+  render() {
+    if(!this.state.name){
+      return(
+        <div className="outerContainer">
+          <Banner logout={this.logout} />
+          <Login
+            login={this.login}
+            signUp={this.signUp}
+            response={this.state.response}
+          />
+        </div>
+      )
+    }
     return(
-      <div>
-        <Header SignupClick = {this.SignupClick} LoginClick ={this.LoginClick} passwordChangeHandler ={this.passwordChangeHandler} usernameChangeHandler ={this.usernameChangeHandler} enteredUsername = {this.state.enteredUsername} enteredPassword={this.state.enteredPassword}/>
-        <SearchBar whichTab ={this.state.whichTab} buysListChangeHandler={this.buysListChangeHandler} stockListChangeHandler ={this.stockListChangeHandler} favsListChangeHandler={this.favsListChangeHandler} name={this.state.name} nameChangeHandler={this.nameChangeHandler}/>
-        {this.state.isPicked ? <StockPopUp userName= {this.state.email} symbol ={this.state.companySymbol} companyName={this.state.companyName} closePopup ={this.togglePopup}/> : null}
-        {content}
+      <div className="outerContainer">
+        <Banner logout={this.logout} />
+        <MainContainer 
+          user_Id={this.state.user_Id} 
+          state={this.state}
+        />
       </div>
-    );
+    )
   }
 }
+
 export default App;
