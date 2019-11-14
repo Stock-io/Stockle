@@ -13,7 +13,7 @@ class App extends Component {
       user_Id: 'id',
       response: '',
       cash: 50000,
-      day: 99,
+      day: 0,
 
       // dummy stocks populated while waiting for database info
       // state.stocks will populate HoldingsBox
@@ -114,7 +114,7 @@ class App extends Component {
   }
 
   
-  
+
   exitSelect(){
     this.setState({ stockName: 'XXXX' })
   }
