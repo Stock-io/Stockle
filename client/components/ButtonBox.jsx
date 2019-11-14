@@ -9,7 +9,7 @@ const ButtonBox = (props) => (
   // THIS IS NOT WHERE IT WILL GO
 
   <div className="innerBox" id="buttonBox">
-    <button id="endBtn">End Day?</button>
+    <button id="endBtn" onClick={ () => props.endDay() }>End Day?</button>
   </div>
 
 );

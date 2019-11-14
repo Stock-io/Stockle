@@ -61,14 +61,19 @@ const GlobalBox = (props) => {
   ];
 
   // a hold for conditional rendering to display the Box for the user's chosen stock.
-  if(props.stockName !== 'XXXX'){
+  if(props.selectedStockName !== 'XXXX'){
     return (
       <InnerStockBox
         selectedStock={props.selectedStock}
         day={props.day}
-        stockName={props.stockName}
+        tempQuantity={props.tempQuantity}
+        totalValue={props.totalValue}
+        selectedStockName={props.selectedStockName}
         selectStock={props.selectStock}
         exitSelect={props.exitSelect}
+        calculateTotal={props.calculateTotal}
+        buyStock={props.buyStock}
+        sellStock={props.sellStock}
       />
     );
   }
