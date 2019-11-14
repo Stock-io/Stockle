@@ -32,15 +32,23 @@ router.get('/user/:user_id', dbController.getUser, (req, res) => {
 })
 
 
+// ***** Set new day for the User ***** //
+router.put('/endDay/:newDay', dbController.setUserDay, (req, res) => {
+  res.status(200).json(res.locals.day);
+})
+
+
+// ***** Return all Stock data for a given day ***** //
+router.get('/All', dbController.dbAll, (req, res) => {
+  res.status(200).json(res.locals.stock);
+})
+
+
 // ***** Return all Stock data for a given day ***** //
 router.get('/:day', dbController.getAllStocks, (req, res) => {
   res.status(200).json(res.locals.stock);
 })
 
-// ***** Return all Stock data for a given day ***** //
-router.put('/endDay/:newDay', dbController.setUserDay, (req, res) => {
-  res.status(200).json(res.locals.day);
-})
 
 // ***** 404 handler ***** //
 router.use('/', (req, res) => {

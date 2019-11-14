@@ -96,23 +96,42 @@ dbController.buyUserStock = (req, res, next) => {
   if (!avg_value) return res.status(400).json('No stock avg_value given');
   if (!amount_owned) return res.status(400).json('No stock amount_owned given');
   if (!score) return res.status(400).json('No stock score given');
-  models.User.findOne({user_id: user_id}, 'stocks', (err, stocks) => {
-    for (let i = 0; i < stocks.length; i++) {
-      if (stocks[i].name === name) {
-        stocks[i].avg_value = avg_value;
-        stocks[i].amount_owned = amount_owned;
+  models.User.findOne({user_id: user_id}, (err, user) => {
+    let doesStockExist = false;
+    for (let i = 0; i < user.stocks.length; i++) {
+      if (user.stocks[i].name === name) {
+        doesStockExist = true;
+        user.stocks[i].avg_value = avg_value;
+        user.stocks[i].amount_owned = amount_owned;
         break;
       }
     }
-    models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks, score: score}, {new: true})
-    .then(data => {
-      res.locals.stock = data;
-      return next()
-    })
-    .catch(err => next({
-      message: 'Error in buyUserStock for findOneAndUpdate',
-      err: err,
-    }));
+    if (doesStockExist) {
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in buyUserStock for findOneAndUpdate, stock does exist',
+        err: err,
+      }));
+    } else {
+      user.stocks.push({
+        name,
+        avg_value,
+        amount_owned,
+      })
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
+      .then(data => {
+        res.locals.stock = data;
+        return next()
+      })
+      .catch(err => next({
+        message: 'Error in buyUserStock for findOneAndUpdate, stock doesn\'t exist',
+        err: err,
+      }));
+    }
   })
   .catch(err => next({
     message: 'Error in buyUserStock for findOne',
@@ -129,17 +148,17 @@ dbController.sellUserStock = (req, res, next) => {
   if (!avg_value) return res.status(400).json('No stock avg_value given');
   if (!amount_owned) return res.status(400).json('No stock amount_owned given');
   if (!score) return res.status(400).json('No stock score given');
-  if (amount_owned === 0) {
-    models.User.findOne({user_id: user_id}, 'stocks', (err, stocks) => {
+  if (amount_owned === 0) { /* Check my type if not deleting properly */
+    models.User.findOne({user_id: user_id}, (err, user) => {
       let stockIndex = null;
-      for (let i = 0; i < stocks.length; i++) {
-        if (stocks[i].name === name) {
+      for (let i = 0; i < user.stocks.length; i++) {
+        if (user.stocks[i].name === name) {
           stockIndex = i;
           break;
         }
       }
-      stocks.splice(stockIndex, 1);
-      models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks, score: score}, {new: true})
+      user.stocks.splice(stockIndex, 1);
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
       .then(data => {
         res.locals.stock = data;
         return next()
@@ -154,15 +173,15 @@ dbController.sellUserStock = (req, res, next) => {
       err: err,
     }));
   } else {
-    models.User.findOne({user_id: user_id}, 'stocks', (err, stocks) => {
-      for (let i = 0; i < stocks.length; i++) {
-        if (stocks[i].name === name) {
-          stocks[i].avg_value = avg_value;
-          stocks[i].amount_owned = amount_owned;
+    models.User.findOne({user_id: user_id}, (err, user) => {
+      for (let i = 0; i < user.stocks.length; i++) {
+        if (user.stocks[i].name === name) {
+          user.stocks[i].avg_value = avg_value;
+          user.stocks[i].amount_owned = amount_owned;
           break;
         }
       }
-      models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks, score: score}, {new: true})
+      models.User.findOneAndUpdate({user_id: user_id}, {stocks: user.stocks, score: score}, {new: true, useFindAndModify: false})
       .then(data => {
         res.locals.stock = data;
         return next()
@@ -221,7 +240,7 @@ dbController.setUserDay = (req, res, next) => {
   const { newDay } = req.params;
   models.User.findOne({user_id: user_id})
   .then(data => {
-    models.User.findOneAndUpdate({user_id: user_id}, {day: newDay}, {new: true})
+    models.User.findOneAndUpdate({user_id: user_id}, {day: newDay}, {new: true, useFindAndModify: false})
     .then(data => {
       res.locals.stock = data;
       return next()
@@ -235,6 +254,15 @@ dbController.setUserDay = (req, res, next) => {
     message: 'Error in setUserDay for findOne',
     err: err,
   }));
+};
+
+// ***** Return all Stock data ***** //
+dbController.dbAll = (req, res, next) => {
+  models.StockPrices.find()
+  .then(data => {
+    res.locals.stock = data;
+    return next();
+  })
 };
 
 module.exports = dbController;
