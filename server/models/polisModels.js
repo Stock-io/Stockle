@@ -11,7 +11,7 @@ mongoose
     // sets the name of the DB that our collections are part of
     dbName: 'stock'
   })
-  .then(() => console.log(`Connected to Sung's Mongo DB`))
+  .then(() => console.log(`Connected to the db`))
   .catch(err => console.log(err));
 
 const Schema = mongoose.Schema;

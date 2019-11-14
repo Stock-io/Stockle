@@ -20,6 +20,9 @@ class App extends Component {
     // this.results = this.props.state.day === 100 ? <ResultsCard /> : <div></div>;
   }
   render() {
+    // conditional rendering for the ResultsCard
+    // Note: this.props.state.day is hardcoded to 99
+    const result = this.props.state.day == 99 ? <ResultsCard singleTradeMaxProfit={this.props.singleTradeMaxProfit} singleTradeMaxProfitResult={this.props.singleTradeMaxProfitResult} singleTradeMinProfit={this.props.singleTradeMinProfit} singleTradeMinProfitResult={this.props.singleTradeMinProfitResult} multiTradeMaxProfit={this.props.multiTradeMaxProfit} multiTradeMaxProfitResult={this.props.multiTradeMaxProfitResult} multiTradeMinProfit={this.props.multiTradeMinProfit} multiTradeMinProfitResult={this.props.multiTradeMinProfitResult} sevenDayMovingAvg={this.props.sevenDayMovingAvg} sevenDayMovingAvgResult={this.props.sevenDayMovingAvgResult}/> : <div></div>
     return(
       <div className="mainContainer">
           {/* passing user cash value and current day into InfoBox */}
@@ -44,7 +47,7 @@ class App extends Component {
           
           {/* the following elements are conditionally rendered for either
           the beginning of the game, or the end results */}
-          {this.results}
+          {result}
           {this.opening}
       </div>
     )
