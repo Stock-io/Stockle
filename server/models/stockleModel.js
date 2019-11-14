@@ -7,7 +7,7 @@ mongoose.connect(MONGO_URI_ATLAS, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   // sets the name of the DB that our collections are part of
-  dbName: 'stockle'
+  dbName: 'stockleDB'
 })
 .then(()=>console.log('Connected to Stockle DB.'))
 .catch(err=>console.log(err));
@@ -37,6 +37,8 @@ const UserSchema = new Schema({
     require: true,
   },
   stocks: [UserStocksSchema],
+  day: Number,
+  score: Number,
 });
 
 const User = mongoose.model('User', UserSchema);

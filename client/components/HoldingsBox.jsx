@@ -3,22 +3,23 @@ import React, { Component } from 'react';
 // the holdings box will pull which stocks the user has purchased.
 // awaiting how to access this information from backend
 
-const HoldingsBox = (props) => (
-  
-  <div id="holdingsBox" className="innerBox darkInner">
-    {/* the below are just placeholders.
-    these will be filled in with actual holdings
-    as populated by the user's information in the database,
-    and fetched from our stocks API*/}
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-    <div class="holdings">DATABASE HOLDINGS</div>
-  </div>
+class HoldingsBox extends Component {
+  constructor(props) {
+    super(props);
+    this.stocks = this.props.stocks
+  }
 
-);
-
+  render() {
+    return (
+      <div id="holdingsBox" className="innerBox darkInner">
+        {this.stocks.map((el, i) => {
+          return <div key={i} className="holdings">
+            {el.name}
+            <div className="valueItems">Valued ${el.avg_value} | Owned: {el.amount_owned}</div>
+          </div>
+        })}
+      </div>
+    );
+  }
+}
 export default HoldingsBox;
