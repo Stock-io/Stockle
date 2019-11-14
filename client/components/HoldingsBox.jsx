@@ -6,8 +6,6 @@ import React, { Component } from 'react';
 class HoldingsBox extends Component {
   constructor(props) {
     super(props);
-    this.stocks = this.props.stocks
-    this.selectStock = this.props.selectStock
   }
   // populates from the state.stocks array
   render() {
