@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import InnerStockBox from './InnerStockBox'
+
 // the Global Box will typically house a list of stocks, using shortened ticker names
 // when a stock is clicked, a secondary box will pop up in its place
 
@@ -59,13 +61,14 @@ const GlobalBox = (props) => {
   ];
 
   // a hold for conditional rendering to display the Box for the user's chosen stock.
-  // if('a' === 'a'){
-  //   return (
-  //     <div id="particularBox" className="innerBox darkInner">
-  //       PARTICULAR STOCK DATA WILL GO HERE
-  //     </div>
-  //   );
-  // }
+  if('a' === 'a'){
+    return (
+      <InnerStockBox
+        selectedStock={props.selectedStock}
+        day={props.day}
+      />
+    );
+  }
   return (
     <div id="globalBox" className="innerBox darkInner">
       {snp50.map((el, i) => {
