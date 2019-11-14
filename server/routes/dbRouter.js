@@ -21,19 +21,19 @@ router.put('/sellStock', dbController.sellUserStock, (req, res) => {
 
 
 // ***** Return a Stock's info ***** //
-router.put('/stock/:name', dbController.getSingleStock, (req, res) => {
+router.get('/stock/:name', dbController.getSingleStock, (req, res) => {
   res.status(200).json(res.locals.stock);
 })
 
 
 // ***** Get User information ***** //
-router.put('/user/:user_id', dbController.getUser, (req, res) => {
+router.get('/user/:user_id', dbController.getUser, (req, res) => {
   res.status(200).json(res.locals.user);
 })
 
 
 // ***** Return all Stock data for a given day ***** //
-router.put('/:day', dbController.getAllStocks, (req, res) => {
+router.get('/:day', dbController.getAllStocks, (req, res) => {
   res.status(200).json(res.locals.stock);
 })
 

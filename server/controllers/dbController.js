@@ -104,7 +104,10 @@ dbController.buyUserStock = (req, res, next) => {
       }
     }
     models.User.findOneAndUpdate({user_id: user_id}, {stocks: stocks})
-    .then(() => next())
+    .then(data => {
+      res.locals.stock = data;
+      return next()
+    })
     .catch(err => next({
       message: 'Error in buyUserStock for findOneAndUpdate',
       err: err,
@@ -128,9 +131,9 @@ dbController.getAllStocks = (req, res, next) => {
   const { day } = req.params;
   models.User.find()
   .then(data => {
-
+    
+    return next();
   })
-  return next();
 };
 
 
