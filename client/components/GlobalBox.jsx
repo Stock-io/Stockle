@@ -61,18 +61,21 @@ const GlobalBox = (props) => {
   ];
 
   // a hold for conditional rendering to display the Box for the user's chosen stock.
-  if('a' === 'a'){
+  if(props.stockName !== 'XXXX'){
     return (
       <InnerStockBox
         selectedStock={props.selectedStock}
         day={props.day}
+        stockName={props.stockName}
+        selectStock={props.selectStock}
+        exitSelect={props.exitSelect}
       />
     );
   }
   return (
     <div id="globalBox" className="innerBox darkInner">
       {snp50.map((el, i) => {
-        return <div className="stockItem" key={i}>{el[1]}</div>
+        return <div className="stockItem" onClick={ () => props.selectStock(el[1]) } key={i}>{el[1]}</div>
       })}
     </div>
   );
