@@ -36,8 +36,8 @@ class Login extends Component {
     return(
       <div className="mainContainer">
         <div id="loginBox">
-          <input onChange={ (e) => this.update(e.target.value, e.target.name) } name="username" type="text" placeholder="username"></input>
-          <input onChange={ (e) => this.update(e.target.value, e.target.name) } name="password" id="passwordInput" type="password" placeholder="password"></input>
+          <input onChange={ (e) => this.update(e.target.value, e.target.name) } name="username" type="text" placeholder="Email"></input>
+          <input onChange={ (e) => this.update(e.target.value, e.target.name) } name="password" id="passwordInput" type="Password" placeholder="password"></input>
           <p id="response">{this.props.response}</p>
         </div>
         <div className="loginButtons">
