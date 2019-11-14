@@ -1,4 +1,4 @@
-const algos = {
+const algorithms = {
   singleTradeMaxProfit: function(arr) {    
     if (!Array.isArray(arr) || arr.length < 1) {
       return;
@@ -7,12 +7,10 @@ const algos = {
     let minPrice = arr[0];
     let maxProfit = arr[1] - arr[0];
 
-    for (let i = 0; i < arr.length; i += 1) {
-      let currentPrice = arr[i];
-      let potentialProfit = currentPrice - minPrice;
-      maxProfit = Math.max(maxProfit, potentialProfit)
-      minPrice = Math.min(minPrice, currentPrice)
-    }
+    arr.forEach(el => {
+      maxProfit = Math.max(maxProfit, el - minPrice)
+      minPrice = Math.min(minPrice, el)
+    });
     if (maxProfit < 0) {
       return;
     }
@@ -98,4 +96,4 @@ const algos = {
   },
 }
 
-export default algos;
+export default algorithms;

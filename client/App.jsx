@@ -4,7 +4,7 @@ import axios from 'axios';
 import MainContainer from './containers/MainContainer.jsx';
 import Login from './components/Login.jsx';
 import Banner from './components/Banner.jsx';
-import Algo from './Algos.jsx';
+import Algo from './Algorithms.jsx';
 
 class App extends Component {
   constructor(props) {
