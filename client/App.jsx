@@ -33,6 +33,7 @@ class App extends Component {
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
     this.logout = this.logout.bind(this);
+    this.selectStock = this.selectStock.bind(this);
   }
 
   // the following are optional routes for gathering data from users and the database
@@ -72,11 +73,13 @@ class App extends Component {
     this.setState({ user_Id: '' , cash: 0, day: '', stocks: []})
   }
 
-  selectStock(name) {
-    axios.get(`http://localhost:8080/get/:name`, name)
+  //PLEASE NOTE: SELECTSTOCK METHOD IS NOT FINISHED
+  selectStock() {
+    axios.get(`http://localhost:8080/db/stock/AAPL`)
     .then(res => {
-      const stocks = res.data;
-      this.setState({ stocks });
+      console.log(res.data)
+      // const selectedStock = res.data;
+      // this.setState({ selectedStock });
     })
   }
 
@@ -106,6 +109,7 @@ class App extends Component {
         <MainContainer 
           user_Id={this.state.user_Id} 
           state={this.state}
+          selectStock={this.selectStock}
         />
       </div>
     )
