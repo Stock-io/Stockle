@@ -4,6 +4,7 @@ const Banner = (props) => (
   
   <div id="bannerDiv">
     <header>stockle</header>
+    <button id="logoutBtn" onClick={ () => props.logout()}>Log Out</button>
   </div>
   
 );

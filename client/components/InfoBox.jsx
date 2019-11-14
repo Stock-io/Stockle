@@ -6,9 +6,9 @@ import React, { Component } from 'react';
 const InfoBox = (props) => (
   
   <div id="infoBox" className="innerBox">
-    <p>NAME</p>
-    <p>$$$</p>
-    <p>DAY</p>
+    <p>{props.name}</p>
+    <p>${props.cash}</p>
+    <p>Day {props.day}</p>
   </div>
 
 );

@@ -17,8 +17,8 @@ class App extends Component {
   render() {
     return(
       <div className="mainContainer">
-          <InfoBox />
-          <HoldingsBox />
+          <InfoBox name={this.props.state.name} cash={this.props.state.cash} day={this.props.state.day}/>
+          <HoldingsBox stocks={this.props.state.stocks}/>
           <ButtonBox />
           <GlobalBox />
       </div>
