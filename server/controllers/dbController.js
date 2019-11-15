@@ -146,7 +146,7 @@ dbController.sellUserStock = (req, res, next) => {
   if (!user_id) return res.status(400).json('No user_id given');
   if (!name) return res.status(400).json('No stock name given');
   if (!avg_value) return res.status(400).json('No stock avg_value given');
-  if (!amount_owned) return res.status(400).json('No stock amount_owned given');
+  if (amount_owned === undefined) return res.status(400).json('No stock amount_owned given');
   if (!score) return res.status(400).json('No stock score given');
   if (amount_owned === 0) { /* Check my type if not deleting properly */
     models.User.findOne({user_id: user_id}, (err, user) => {
