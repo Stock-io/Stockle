@@ -132,7 +132,7 @@ class App extends Component {
         day: state.day + 1
       }
     })
-    axios.put(`/endDay/${this.state.day}`)
+    axios.put('/endDay', {user_id: this.state.user_Id, newDay: this.state.day})
     .catch(err=> {
       if (err) {
         console.log(err)
