@@ -20,8 +20,13 @@ const IntroCard = (props) => (
     <button onClick={() => props.multiTradeMinProfit([500, 501, 510, 515, 499, 502, 501])}>multiTradeMinProfit</button>
     <div> {props.multiTradeMinProfitResult} </div>
 
-    <button onClick={() => props.sevenDayMovingAvg([500, 501, 510, 515, 499, 502, 501])}>sevenDayMovingAvg</button>
-    <div> {props.sevenDayMovingAvgResult} </div>
+    <button onClick={() => props.SMA([9999, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499], 20)}>twentyDayMovingAvg</button>
+    <div> {props.twentyDayMovingAvgResult} </div>
+
+    <button onClick={() => props.SMA([9999, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499], 50)}>fiftyDayMovingAvg</button>
+    <div> {props.fiftyDayMovingAvgResult} </div>
+
+    <div style={{ color: 'green' }}>Good job</div>
   </div>
 
 );

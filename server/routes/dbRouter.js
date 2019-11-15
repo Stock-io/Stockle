@@ -33,7 +33,7 @@ router.get('/user/:user_id', dbController.getUser, (req, res) => {
 
 
 // ***** Set new day for the User ***** //
-router.put('/endDay/:newDay', dbController.setUserDay, (req, res) => {
+router.put('/endDay', dbController.setUserDay, (req, res) => {
   res.status(200).json(res.locals.day);
 })
 
