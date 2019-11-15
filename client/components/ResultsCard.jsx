@@ -8,7 +8,7 @@ const IntroCard = (props) => (
   <div id="resultsCard" className="innerBox">
     <button id="closeBtn" onClick={ () => {document.getElementById('resultsCard').style.display = 'none'}}>x</button>
 
-    <button onClick={() => props.singleTradeMaxProfit([500, 501, 510, 515, 499, 502, 501])}>singleTradeMaxProfit</button>
+    <button onClick={() => props.singleTradeMaxProfit(props.applePrices)}>singleTradeMaxProfit</button>
     <div> {props.singleTradeMaxProfitResult} </div>
 
     <button onClick={() => props.singleTradeMinProfit([500, 501, 510, 515, 499, 502, 501])}>singleTradeMinProfit</button>
@@ -27,6 +27,9 @@ const IntroCard = (props) => (
     <div> {props.fiftyDayMovingAvgResult} </div>
 
     <div style={{ color: 'green' }}>Good job</div>
+
+    <button onClick={() => props.resultsCalculations()}>test</button>
+    
   </div>
 
 );
