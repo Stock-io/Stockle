@@ -13,7 +13,7 @@ class App extends Component {
       user_Id: 'id',
       response: '',
       cash: 50000,
-      day: 0,
+      day: 98,
       // state.stocks will populate HoldingsBox
       stocks: [],
       boughtCache: [],
@@ -101,7 +101,28 @@ class App extends Component {
     this.setState({ user_Id: ''})
     // , cash: 50000, day: 0, stocks: []
   }
+
+  resultsCalculations() {
+    axios.get('/db/stock/AAPL')
+    .then(res => {
+      const arr = res.data.date_price;
+
+      const newArr = [];
+
+      arr.forEach(el => {
+        newArr.push(el.price);
+      })
+      console.log(arr);
+      console.log(newArr);
+      this.setState({ applePrices: newArr });
+    })
+  }
+
   endDay = () => {
+    if (this.state.day + 1 === 99) {
+      this.resultsCalculations();
+    }
+
     this.setState(state => {
       return {
         day: state.day + 1
@@ -209,23 +230,6 @@ class App extends Component {
     })
   }
 
-
-  resultsCalculations() {
-    axios.get('/db/stock/AAPL')
-    .then(res => {
-      const arr = res.data.date_price;
-
-      const newArr = [];
-
-      arr.forEach(el => {
-        newArr.push(el.price);
-      })
-      console.log(arr);
-      console.log(newArr);
-      this.setState({ applePrices: newArr });
-    })
-  }
-
   
   
   exitSelect(){
@@ -294,7 +298,6 @@ class App extends Component {
           twentyDayMovingAvgResult={this.state.twentyDayMovingAvgResult}
           fiftyDayMovingAvgResult={this.state.fiftyDayMovingAvgResult}
 
-          resultsCalculations={this.resultsCalculations}
           applePrices={this.state.applePrices}
           
           exitSelect={this.exitSelect}
