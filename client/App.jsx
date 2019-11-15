@@ -75,7 +75,7 @@ class App extends Component {
       // Handle Errors here.
       // const errorCode = error.code;
       const errorMessage = error.message;
-      this.setState({resonse: errorMessage})
+      this.setState({response: errorMessage})
       // console.log('errors', errorCode, errorMessage)
     });
 
@@ -93,7 +93,7 @@ class App extends Component {
       // const errorCode = error.code;
       const errorMessage = error.message;
       // console.log('errors', errorCode, errorMessage)
-      this.setState({resonse: errorMessage})
+      this.setState({response: errorMessage})
     });
       // .then(() => this.setState({day: 0, cash: 50000}))
     }
