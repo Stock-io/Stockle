@@ -13,7 +13,7 @@ class App extends Component {
       user_Id: 'id',
       response: '',
       cash: 50000,
-      day: 98,
+      day: 0,
       // state.stocks will populate HoldingsBox
       stocks: [],
       boughtCache: [],
