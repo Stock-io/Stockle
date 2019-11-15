@@ -14,15 +14,13 @@ import ResultsCard from '../components/ResultsCard.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-
-    // conditionals for intro card and results card
-    // this.opening = this.props.state.day === 0 ? <IntroCard /> : <div></div>;
-    // this.results = this.props.state.day === 100 ? <ResultsCard /> : <div></div>;
   }
   render() {
     // conditional rendering for the ResultsCard
     // Note: this.props.state.day is hardcoded to 99
-    const result = this.props.state.day == 99 ? <ResultsCard singleTradeMaxProfit={this.props.singleTradeMaxProfit} singleTradeMaxProfitResult={this.props.singleTradeMaxProfitResult} singleTradeMinProfit={this.props.singleTradeMinProfit} singleTradeMinProfitResult={this.props.singleTradeMinProfitResult} multiTradeMaxProfit={this.props.multiTradeMaxProfit} multiTradeMaxProfitResult={this.props.multiTradeMaxProfitResult} multiTradeMinProfit={this.props.multiTradeMinProfit} multiTradeMinProfitResult={this.props.multiTradeMinProfitResult} SMA={this.props.SMA} twentyDayMovingAvgResult={this.props.twentyDayMovingAvgResult} fiftyDayMovingAvgResult={this.props.fiftyDayMovingAvgResult} applePrices={this.props.applePrices}/> : <div></div>
+    const result = this.props.state.day === 99 ? <ResultsCard  cash={this.props.state.cash} singleTradeMaxProfit={this.props.singleTradeMaxProfit} singleTradeMaxProfitResult={this.props.singleTradeMaxProfitResult} singleTradeMinProfit={this.props.singleTradeMinProfit} singleTradeMinProfitResult={this.props.singleTradeMinProfitResult} multiTradeMaxProfit={this.props.multiTradeMaxProfit} multiTradeMaxProfitResult={this.props.multiTradeMaxProfitResult} multiTradeMinProfit={this.props.multiTradeMinProfit} multiTradeMinProfitResult={this.props.multiTradeMinProfitResult} SMA={this.props.SMA} twentyDayMovingAvgResult={this.props.twentyDayMovingAvgResult} fiftyDayMovingAvgResult={this.props.fiftyDayMovingAvgResult} applePrices={this.props.applePrices}/> : <div></div>
+    const opening = this.props.state.day === 0 ? <IntroCard /> : <div></div>;
+    
     return(
       <div className="mainContainer">
           {/* passing user cash value and current day into InfoBox */}
@@ -54,7 +52,7 @@ class App extends Component {
           {/* the following elements are conditionally rendered for either
           the beginning of the game, or the end results */}
           {result}
-          {this.opening}
+          {/* {opening} */}
       </div>
     )
   }
