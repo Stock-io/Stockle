@@ -14,20 +14,15 @@ class App extends Component {
       response: '',
       cash: 50000,
       day: 0,
-
-      // dummy stocks populated while waiting for database info
       // state.stocks will populate HoldingsBox
-      stocks: [
-        {name: 'AAPL', avg_value: 100, amount_owned: 25},
-        {name: 'WMT', avg_value: 50, amount_owned: 50}
-      ],
-      
+      stocks: [],
+      boughtCache: [],
       // to be set any time the user clicks a stock name
       // it will flip GlobalBox to InnerStockBox, populating with pertinent stock information
-      // dummy data below
-      selectedStockName: 'XXXX',
       totalValue: 0,
       tempQuantity: 0,
+      // dummy data below
+      selectedStockName: 'XXXX',
       selectedStock: {
         date: 'XX-XX-2019',
         price: '0000',
@@ -60,17 +55,6 @@ class App extends Component {
     this.sellStock = this.sellStock.bind(this);
   }
 
-  // the following are optional routes for gathering data from users and the database
-  getHoldings() {
-    axios.get(`http://localhost:8080/get/${this.state.user_Id}`, this.state.user_Id)
-    .then(res => {
-      const stocks = res.data;
-      this.setState({ stocks });
-    })
-  }
-
-
-
   login(info){
     firebase.auth().signInWithEmailAndPassword(info.username, info.password)
     .catch(function(error) {
@@ -101,7 +85,7 @@ class App extends Component {
     }
   }
 
-
+  // logging out, or ending the day
   logout(){
     firebase.auth().signOut()
     .then(function() {
@@ -113,14 +97,6 @@ class App extends Component {
     this.setState({ user_Id: ''})
     // , cash: 50000, day: 0, stocks: []
   }
-  calculateTotal(totalObj) {
-    const { value, quantity } = totalObj;
-    let totalValue = Number((value * quantity).toFixed(2))
-    let tempQuantity = Number(quantity)
-    this.setState( { totalValue, tempQuantity } )
-  }
-
-
   endDay = () => {
     this.setState(state => {
       return {
@@ -135,14 +111,22 @@ class App extends Component {
     })
   }
 
-  // methods for buying and selling stocks
+  // calculates the user's input for display, and then for buying/selling
+  calculateTotal(totalObj) {
+    const { value, quantity } = totalObj;
+    let totalValue = Number((value * quantity).toFixed(2))
+    let tempQuantity = Number(quantity)
+    this.setState( { totalValue, tempQuantity } )
+  }
 
+  // methods for buying and selling stocks
   buyStock(purchase){
     const { name, value, quantity } = purchase;
     let boughtStock;
     // copying state
     const tempStocks = [...this.state.stocks]
     let cash = Number(this.state.cash);
+    let boughtCache = [...this.state.boughtCache]
     // conditional for if you do not have enough money
     if(cash - this.state.totalValue < 0){
       this.setState({ totalValue: 'You\'re too poor!' })
@@ -156,19 +140,21 @@ class App extends Component {
       }
       else if(i + 1 >= tempStocks.length) {
         boughtStock = { name: name, avg_value: value, amount_owned: 0 };
+        boughtCache.push(name);
         tempStocks.push(boughtStock);
         break;
       }
     }
     if(!tempStocks.length) {
       boughtStock = { name: name, avg_value: value, amount_owned: 0 };
+      boughtCache.push(name);
       tempStocks.push(boughtStock);
     }
     // updating quantity & cash to temporary stock
     cash = (cash - this.state.totalValue).toFixed(2);
     boughtStock.amount_owned += quantity;
     // updating state
-    this.setState({ stocks: tempStocks, totalValue: '', cash })
+    this.setState({ stocks: tempStocks, totalValue: '', cash, boughtCache })
 
     // FUTURE DB REQUEST:
     // axios.put(`http://localhost:8080/db/buyStock`, boughtStock)
@@ -194,6 +180,7 @@ class App extends Component {
         tempStocks[i].amount_owned -= quantity;
         if(tempStocks[i].amount_owned === 0){
           tempStocks.splice(i, 1)
+          console.log(this.state.boughtCache)
         }
         cash = (cash + this.state.totalValue).toFixed(2);
         this.setState({ stocks: tempStocks, totalValue: '', cash })
@@ -246,7 +233,6 @@ class App extends Component {
 }
 
   componentDidMount() {
-    // this.getHoldings()
     firebase.auth().onAuthStateChanged(this.update);
   }
 
