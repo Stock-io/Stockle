@@ -35,6 +35,8 @@ class App extends Component {
       multiTradeMinProfitResult: 0,
       twentyDayMovingAvgResult: 0,
       fiftyDayMovingAvgResult: 0,
+
+      applePrices: [],
     }
     this.login = this.login.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -48,6 +50,8 @@ class App extends Component {
     this.multiTradeMaxProfit = Algo.multiTradeMaxProfit.bind(this);
     this.multiTradeMinProfit = Algo.multiTradeMinProfit.bind(this);
     this.SMA = Algo.SMA.bind(this);
+
+    this.resultsCalculations = this.resultsCalculations.bind(this);
 
     this.exitSelect = this.exitSelect.bind(this);
     this.calculateTotal = this.calculateTotal.bind(this);
@@ -97,7 +101,28 @@ class App extends Component {
     this.setState({ user_Id: ''})
     // , cash: 50000, day: 0, stocks: []
   }
+
+  resultsCalculations() {
+    axios.get('/db/stock/AAPL')
+    .then(res => {
+      const arr = res.data.date_price;
+
+      const newArr = [];
+
+      arr.forEach(el => {
+        newArr.push(el.price);
+      })
+      console.log(arr);
+      console.log(newArr);
+      this.setState({ applePrices: newArr });
+    })
+  }
+
   endDay = () => {
+    if (this.state.day + 1 === 99) {
+      this.resultsCalculations();
+    }
+
     this.setState(state => {
       return {
         day: state.day + 1
@@ -293,6 +318,8 @@ class App extends Component {
           SMA={this.SMA}
           twentyDayMovingAvgResult={this.state.twentyDayMovingAvgResult}
           fiftyDayMovingAvgResult={this.state.fiftyDayMovingAvgResult}
+
+          applePrices={this.state.applePrices}
           
           exitSelect={this.exitSelect}
           calculateTotal={this.calculateTotal}

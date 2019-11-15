@@ -8,25 +8,26 @@ const IntroCard = (props) => (
   <div id="resultsCard" className="innerBox">
     <button id="closeBtn" onClick={ () => {document.getElementById('resultsCard').style.display = 'none'}}>x</button>
 
-    <button onClick={() => props.singleTradeMaxProfit([500, 501, 510, 515, 499, 502, 501])}>singleTradeMaxProfit</button>
+    <button onClick={() => props.singleTradeMaxProfit(props.applePrices)}>singleTradeMaxProfit</button>
     <div> {props.singleTradeMaxProfitResult} </div>
 
-    <button onClick={() => props.singleTradeMinProfit([500, 501, 510, 515, 499, 502, 501])}>singleTradeMinProfit</button>
+    <button onClick={() => props.singleTradeMinProfit(props.applePrices)}>singleTradeMinProfit</button>
     <div> {props.singleTradeMinProfitResult} </div>
 
-    <button onClick={() => props.multiTradeMaxProfit([500, 501, 510, 515, 499, 502, 501])}>multiTradeMaxProfit</button>
+    <button onClick={() => props.multiTradeMaxProfit(props.applePrices)}>multiTradeMaxProfit</button>
     <div> {props.multiTradeMaxProfitResult} </div>
 
-    <button onClick={() => props.multiTradeMinProfit([500, 501, 510, 515, 499, 502, 501])}>multiTradeMinProfit</button>
+    <button onClick={() => props.multiTradeMinProfit(props.applePrices)}>multiTradeMinProfit</button>
     <div> {props.multiTradeMinProfitResult} </div>
 
-    <button onClick={() => props.SMA([9999, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499], 20)}>twentyDayMovingAvg</button>
+    <button onClick={() => props.SMA(props.applePrices, 20)}>twentyDayMovingAvg</button>
     <div> {props.twentyDayMovingAvgResult} </div>
 
-    <button onClick={() => props.SMA([9999, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499, 500, 501, 510, 515, 499], 50)}>fiftyDayMovingAvg</button>
+    <button onClick={() => props.SMA(props.applePrices, 50)}>fiftyDayMovingAvg</button>
     <div> {props.fiftyDayMovingAvgResult} </div>
 
     <div style={{ color: 'green' }}>Good job</div>
+    
   </div>
 
 );
