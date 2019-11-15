@@ -100,11 +100,6 @@ class App extends Component {
       // .then(() => this.setState({day: 0, cash: 50000}))
     }
   }
-  // ending the day, or logging out of a user session
-  endDay() {
-    console.log('You ended the day. Zzz')
-    this.setState({ day: this.state.day + 1 })
-  }
 
 
   logout(){
@@ -132,7 +127,7 @@ class App extends Component {
         day: state.day + 1
       }
     })
-    axios.put('/endDay', {user_id: this.state.user_Id, newDay: this.state.day})
+    axios.put('/db/endDay', {user_id: this.state.user_Id, newDay: this.state.day})
     .catch(err=> {
       if (err) {
         console.log(err)
