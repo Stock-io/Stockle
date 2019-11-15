@@ -154,19 +154,26 @@ class App extends Component {
     // updating state
     this.setState({ stocks: tempStocks, totalValue: '', cash, boughtCache })
 
-    // FUTURE DB REQUEST:
-    // axios.put(`http://localhost:8080/db/buyStock`, boughtStock)
-    // .then(res => {
-    //   if(!res){
-    //     console.log(`You bought some ${name} stock`)
-    //   }
-    // })
+    axios.put(`http://localhost:8080/db/buyStock`, 
+        {
+          user_id: this.state.user_Id,
+          score: cash,
+          name: this.state.selectedStockName,
+          avg_value: value,
+          amount_owned: boughtStock.amount_owned
+        }
+      ).then(res => {
+      if(!res){
+        console.log(`You bought some ${name} stock`)
+      }
+    })
   }
   sellStock(sale){
     const { name, value, quantity } = sale
     // copying state
     const tempStocks = [...this.state.stocks]
     let cash = Number(this.state.cash);
+    let soldStockQuant;
     // finding if we own any of this stock
     for(let i = 0; i < tempStocks.length; i++){
       // conditional for if you own this stock
@@ -176,6 +183,7 @@ class App extends Component {
           return;
         }
         tempStocks[i].amount_owned -= quantity;
+        soldStockQuant = tempStocks[i].amount_owned
         if(tempStocks[i].amount_owned === 0){
           tempStocks.splice(i, 1)
           console.log(this.state.boughtCache)
@@ -190,6 +198,19 @@ class App extends Component {
         return;
       }
     }
+    axios.put(`http://localhost:8080/db/sellStock`, 
+    {
+      user_id: this.state.user_Id,
+      score: cash,
+      name: this.state.selectedStockName,
+      avg_value: value,
+      amount_owned: soldStockQuant
+    }
+  ).then(res => {
+  if(!res){
+    console.log(`You sold some ${name} stock`)
+  }
+})
   }
   
   // methods for selecting which stock to display in InnerStockBox,
