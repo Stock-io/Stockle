@@ -37,7 +37,6 @@ class HoldingsBox extends Component {
         .catch(err => console.log('Error for componentDidMount in HoldingsBox: ', err))
       }
     // }
-    console.log('tradingValues', tradingValues, 'delta', delta);
     this.setState({
       tradingValues:tradingValues,
       delta:delta
@@ -46,7 +45,6 @@ class HoldingsBox extends Component {
 
   // populates from the state.stocks array
   render() {
-    console.log(this.props.stocks)
     return (
       <div id="holdingsBox" className="innerBox darkInner">
         {this.props.stocks.map((el, i) => {

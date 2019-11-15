@@ -237,12 +237,12 @@ dbController.getUser = (req, res, next) => {
 
 // ***** Set new User day ***** //
 dbController.setUserDay = (req, res, next) => {
-  const { newDay } = req.params;
+  const { user_id, newDay } = req.body;
   models.User.findOne({user_id: user_id})
   .then(data => {
     models.User.findOneAndUpdate({user_id: user_id}, {day: newDay}, {new: true, useFindAndModify: false})
     .then(data => {
-      res.locals.stock = data;
+      res.locals.day = data;
       return next()
     })
     .catch(err => next({

@@ -18,6 +18,7 @@ const InnerStockBox = (props) => {
         */}
         <p style={{fontSize:'10pt'}}>How much do you want to purchase?</p>
         <input type="text" id="purchaseAmount" onChange={ (e) => {
+              e.target.value=e.target.value.replace(/[^\d]/,'')
               props.calculateTotal({ value: props.selectedStock.price, quantity: e.target.value });
             }}></input>
         <p>{props.totalValue}</p>
