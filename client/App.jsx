@@ -12,8 +12,8 @@ class App extends Component {
     this.state = {
       user_Id: '',
       response: '',
-      cash: 60000,
-      day: 99,
+      cash: 50000,
+      day: 0,
       // state.stocks will populate HoldingsBox
       stocks: [],
       boughtCache: [],
