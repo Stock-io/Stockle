@@ -27,7 +27,7 @@ class HoldingsBox extends Component {
         .then(stock => {
           tradingValues.push(stock.date_price[this.props.day].price);
           if (this.props.day !== 0) {
-            let difference = (stock.date_price[this.props.day].price - stock.date_price[this.props.day - 1].price).toString();
+            let difference = (stock.date_price[this.props.day].price - stock.date_price[this.props.day - 1].price).toFixed(2).toString();
             if (difference[0] === '-') delta.push(difference)
             else delta.push('+' + difference);
           } else {

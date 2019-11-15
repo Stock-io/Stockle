@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_Id: 'id',
+      user_Id: '',
       response: '',
       cash: 50000,
       day: 0,
@@ -76,7 +76,7 @@ class App extends Component {
       return;
     }
     else { 
-      this.setState({ response : ''}) 
+      this.setState({ response : '', cash: 50000}) 
       firebase.auth().createUserWithEmailAndPassword(info.username, info.password)
       .catch(function(error) {
       // Handle Errors here.
@@ -122,13 +122,8 @@ class App extends Component {
     if (this.state.day + 1 === 99) {
       this.resultsCalculations();
     }
-
-    this.setState(state => {
-      return {
-        day: state.day + 1
-      }
-    })
-    axios.put('/db/endDay', {user_id: this.state.user_Id, newDay: this.state.day})
+    this.setState({ day: this.state.day + 1 })
+    axios.put('/db/endDay', {user_id: this.state.user_Id, newDay: this.state.day + 1})
     .catch(err=> {
       if (err) {
         console.log(err)
@@ -251,13 +246,9 @@ class App extends Component {
     })
   }
 
-  
-  
   exitSelect(){
     this.setState({ selectedStockName: 'XXXX' })
   }
-
-
 
   update = (user) => {
     if (user) {

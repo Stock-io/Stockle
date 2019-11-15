@@ -10,6 +10,8 @@ const IntroCard = (props) => (
       document.getElementById('introCard').style.display = 'none'
     }}>x</button>
     Welcome to Stockle.
+    <p>Here's where the game instructions will go,
+      <br/>explaining all of our functionality and how the user can learn about stocks</p>
   </div>
 
 );
