@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const MONGO_URI_ATLAS = 'mongodb+srv://aburkett:Yc+_t7N-SM9Q@bL@stockle-wnxbs.mongodb.net/test?retryWrites=true&w=majority';
+const MONGO_URI_ATLAS = process.env.MONGO;
 
 mongoose.connect(MONGO_URI_ATLAS, {
   // options for the connect method to parse the URI
