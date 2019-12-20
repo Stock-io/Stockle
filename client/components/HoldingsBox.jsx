@@ -13,6 +13,7 @@ class HoldingsBox extends Component {
     this.state = {
       tradingValues: [],
       delta: [],
+      flip: true,
     }
   }
 
@@ -20,31 +21,33 @@ class HoldingsBox extends Component {
   componentDidMount() {
     const tradingValues = [];
     const delta = [];
-    // async() => {
       for (let i = 0; i < this.props.stocks.length; i++) {
         fetch(`/db/stock/${this.props.stocks[i].name}`)
         .then(response => response.json())
         .then(stock => {
           tradingValues.push(stock.date_price[this.props.day].price);
           if (this.props.day !== 0) {
-            let difference = (stock.date_price[this.props.day].price - stock.date_price[this.props.day - 1].price).toString();
+            let difference = (stock.date_price[this.props.day].price - stock.date_price[this.props.day - 1].price).toFixed(2).toString();
             if (difference[0] === '-') delta.push(difference)
             else delta.push('+' + difference);
           } else {
             delta.push('-');
           }
         })
+        .then(
+          this.setState({
+            tradingValues: tradingValues,
+            delta: delta
+          })
+        )
         .catch(err => console.log('Error for componentDidMount in HoldingsBox: ', err))
       }
-    // }
-    this.setState({
-      tradingValues:tradingValues,
-      delta:delta
-    });
+    
   }
 
   // populates from the state.stocks array
   render() {
+    console.log(this.state)
     return (
       <div id="holdingsBox" className="innerBox darkInner">
         {this.props.stocks.map((el, i) => {
@@ -53,6 +56,7 @@ class HoldingsBox extends Component {
             <div className="valueItems">Valued ${el.avg_value} | Owned: {el.amount_owned} | Trading Value ${this.state.tradingValues[i]} | Delta: {this.state.delta[i]}</div>
           </div>)
         })}
+        {this.props.toggle}
       </div>
     );
   }

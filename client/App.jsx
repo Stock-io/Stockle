@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_Id: 'id',
+      user_Id: '',
       response: '',
       cash: 50000,
       day: 0,
@@ -27,6 +27,7 @@ class App extends Component {
         date: 'XX-XX-2019',
         price: '0000',
       },
+      toggle: false,
 
       // result values for results card
       singleTradeMaxProfitResult: 0,
@@ -119,13 +120,14 @@ class App extends Component {
   }
 
   endDay = () => {
-    if (this.state.day + 1 === 99) {
+    if (this.state.day + 1 === 100) {
       this.resultsCalculations();
     }
 
     this.setState(state => {
       return {
-        day: state.day + 1
+        day: state.day + 1,
+        toggle: state.toggle ? false : true,
       }
     })
     axios.put('/db/endDay', {user_id: this.state.user_Id, newDay: this.state.day})
@@ -306,7 +308,7 @@ class App extends Component {
           state={this.state}
           selectStock={this.selectStock}
           day={this.state.day}
-
+          toggle={this.state.toggle}
           singleTradeMaxProfit={this.singleTradeMaxProfit}
           singleTradeMaxProfitResult={this.state.singleTradeMaxProfitResult}
           singleTradeMinProfit={this.singleTradeMinProfit}
