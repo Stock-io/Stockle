@@ -1,151 +1,243 @@
-@-webkit-keyframes scale-in-hor-center {
-  0% {
-    -webkit-transform: scaleX(0);
-            transform: scaleX(0);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: scaleX(1);
-            transform: scaleX(1);
-    opacity: 1;
-  }
-}
-@keyframes scale-in-hor-center {
-  0% {
-    -webkit-transform: scaleX(0);
-            transform: scaleX(0);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: scaleX(1);
-            transform: scaleX(1);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-@keyframes focus-in-contract-bck {
-  0% {
-    letter-spacing: 1em;
-    -webkit-transform: translateZ(300px);
-            transform: translateZ(300px);
-    -webkit-filter: blur(12px);
-            filter: blur(12px);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: translateZ(12px);
-            transform: translateZ(12px);
-    -webkit-filter: blur(0);
-            filter: blur(0);
-    opacity: 1;
-  }
-}
-
-body{
-  // background-color: #2f264d;
-  background-image: url('https://images.alphacoders.com/774/774073.jpg');
-  // linear-gradient(147deg, #120930 0%, #2c3e50 74%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  color: white;
-  display: flex;
-  justify-content: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: sans-serif;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-
-
+  justify-content: center;
+  align-items: center;
+  overflow-wrap: break-word;
 }
-#stockBox{
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  background: rgba(50,50,50,1);
+}
+
+.outerContainer {
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content:center;
-  justify-self: center;
-  color: white;
-  background-color: #090947;
-  background-image: linear-gradient(315deg, #090947 0%, #5a585a 74%);
-  width:auto;
-  box-shadow: 10px 15px 39px rgba(0, 0, 0, .2);
-  border-radius: 80px;
-  font-size: 120%;
+  flex-direction: column;
+}
+
+#bannerDiv {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  color: rgba(50,50,50,1);
+  background: rgba(210,250,210,1);
+  border-radius: 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .3);
+  z-index: 5;
+  button {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    width: 90px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(250,60,40,1);
+  }
+}
+  header {
+      font-size: 28pt;
+      font-family: 'Ubuntu', sans-serif;
+      letter-spacing: 4pt;
+      background: transparent;
+  }
+
+.mainContainer {
+  width: 80%;
+  height: 400px;
+  margin-top: 100px;
+  background: rgba(235,235,235,1);
+  box-shadow: 5px 5px 10px rgba(0,0,0,.6);
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+
+#loginBox {
+  display: flex;
+  flex-direction: column;
+  grid-area: 2 / 2 / span 2 / 2;
+  input {
+    width: 150%;
+    height: 50px;
+  }
+}
+.loginButtons {
+  grid-area: 4 / 2 / 4 / 2;
+  width: 100%;
+  height:20%;
+  background: transparent;
+  display: flex;
+  justify-content: space-evenly;
+}
+.innerBox {
+  width: 95%;
+  height: 95%;
   margin: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.grow { 
-  transition: all .5s ease-in-out; 
+.darkInner {
+  color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,.8);
+  box-shadow: inset 2px 2px 15px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+#introCard {
+  grid-area: 1 / 1 / span 5 / span 3;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: 10;
+  #closeBtn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: rgba(250,60,40,1);
+    color: rgba(255,255,255,0.8);
   }
-   
-  .grow:hover { 
-  transform: scale(1.1); 
+}
+#resultsCard {
+  grid-area: 1 / 1 / span 5 / span 3;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: 10;
+  #closeBtn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: rgba(250,60,40,1);
+    color: rgba(255,255,255,0.8);
   }
-.closeButton{
-  position: absolute;
-  right: 10px;
-  top:0;
 }
 
-.popup {  
-  position: fixed;  
-  width: 100%;  
-  height: 100%;  
-  top: 0;  
-  left: 0;  
-  right: 0;  
-  bottom: 0;  
-  margin: auto;  
-  background-color: rgba(0,0,0, 0.5);  
-  font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;
-  
-}  
+#infoBox {
+  grid-area: 1 / 1 / 1 / span 2;
+  display: flex;
+  justify-content: space-evenly;
+}
+#holdingsBox {
+  grid-area: 2 / 1 / span 3 / span 2;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+.holdings {
+  padding: 15px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  cursor: pointer;
 
-.popup_inner {  
-  align-content: center;
-  position: absolute;  
-  left: 10%;  
-  right: 10%;  
-  top: 20%;  
-  bottom: 20%;    
-  border-radius: 20px;  
-  background-color: #000000;
-  background-image: linear-gradient(315deg, #000000 0%, #5e5368 74%);
-  -webkit-animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  -webkit-animation: scale-out-horizontal 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-  animation: scale-out-horizontal 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-  
+}
+#buttonBox {
+  grid-area: 5 / 1 / 5 / span 2;
+  button {
+    width: 90px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(250,60,40,1);
+  }
+}
+#globalBox {
+  grid-area: 1 / 3 / span 5 / 3;
+  .stockItem {
+    font-size: 12pt;
+    margin: 8pt;
+    cursor: pointer;
+  }
+}
+#innerStockBox {
+  grid-area: 1 / 3 / span 5 / 3;
+  align-items: center;
+  padding-top: 15pt;
+  position: relative;
+  p {
+    margin-bottom: 15px;
+    font-size: 15pt;
+  }
+  #innerClose {
+    border-radius: 15px;
+    background: rgba(250,60,40,1);
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  .buyBtn {
+    font-size: 0.8em;
+    background: none;
+    border: none;
+    color: rgba(245,245,245,1);
+    width: auto;
+    height: auto;
+    margin: 15px;
+  }
+  #commitBtn {
+    width: 80px;
+    height: 40px;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(250,60,40,1);
+  }
 }
 
-#stockBuyInfo{
-  width: 48%;
-  position: absolute;
-  right: 0px;
-  font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;
+button {
+  width: 80px;
+  height: 40px;
+  font-size: 0.78em;
+  background: rgba(245,245,245,1);
+  color:rgba(50,50,50,1);
+  cursor: pointer;
 }
 
-#title{
-  font-size: 100px;
-  background: -webkit-linear-gradient(315deg, #4a06a4 0%, #108d04 74%);
-  font-family: 'Kanit', sans-serif;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+input {
+  width: 90%;
+  height: 15%;
+  background: white;
+  color:rgba(50,50,50,1);
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.4); 
+  border-radius: 10px;
+  margin: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(210,250,210,1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
 
+*:focus {
+  outline: none;
+}
+#response {
+  color: darkred;
+}
+.hidden {
+  visibility: hidden;
+}
